@@ -2,6 +2,32 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
 var uniqueValidator = require('mongoose-unique-validator');
 
+const CartSchema = new mongoose.Schema({
+    name: {
+        type: String,
+    },
+    price: {
+        type: Number,
+    },
+    details: {
+        type: String,
+    },
+    size: {
+        type: Number,
+    },
+    gender: {
+        type: String,
+    },
+    condition: {
+        type: String,
+    },
+    images: [
+        {
+            type: String,
+        }
+    ]
+})
+
 const UserSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -26,7 +52,8 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "*Password is required."],
         minLength: [8, "*Password must be at least 8 characters long."],
-    }
+    },
+    cart: [CartSchema]
 }, 
 {timestamps: true }
 )
