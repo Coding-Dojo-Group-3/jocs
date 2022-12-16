@@ -1,10 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+
+
 
 // const initialState = {
 //     value: 0
 // }
-const initialState = {
+
+const initialUserState = {
     user: null
 }
 
@@ -22,19 +25,18 @@ const initialState = {
 //             return state
 //     }
 // }
-function userReducer(state = initialState, action) {
-    switch (action.type) {
-        case "SET_USER":
-            return{
-                // ...state,
-                user: action.payload
-            }
-        case "NULL_USER":
-            return{
-                // ...state,
-                user: null
-            }
-        case"LOGOUT_USER":
+
+const userSlice = createSlice({
+    name: "user",
+    initialState: initialUserState,
+    reducers: {
+        set_user(state, action) {
+            state.user = action.payload
+        },
+        null_user(state) {
+            state.user = null
+        },
+        logout_user(state, action) {
             axios.get('http://localhost:8000/api/users/logout',{withCredentials:true})
             .then(()=>{
                 action.payload("/dashboard")
@@ -42,16 +44,45 @@ function userReducer(state = initialState, action) {
             .catch((err)=>{
                 action.payload("/dashboard")
             })
-            return{
-                // ...state,
-                user: null
-            }
-        default:
-            return state
+        },
     }
-}
+})
 
 
-const store = configureStore({ reducer: userReducer });
+// function userReducer(state = initialState, action) {
+//     switch (action.type) {
+//         case "SET_USER":
+//             return{
+//                 // ...state,
+//                 user: action.payload
+//             }
+//         case "NULL_USER":
+//             return{
+//                 // ...state,
+//                 user: null
+//             }
+//         case"LOGOUT_USER":
+//             axios.get('http://localhost:8000/api/users/logout',{withCredentials:true})
+//             .then(()=>{
+//                 action.payload("/dashboard")
+//             })
+//             .catch((err)=>{
+//                 action.payload("/dashboard")
+//             })
+//             return{
+//                 // ...state,
+//                 user: null
+//             }
+//         default:
+//             return state
+//     }
+// }
 
+
+const store = configureStore({ reducer: userSlice.reducer });
+// const store = configureStore({ reducer: {
+//     user: userSlice.reducer
+// }});
+
+export const userActions = userSlice.actions
 export default store;
