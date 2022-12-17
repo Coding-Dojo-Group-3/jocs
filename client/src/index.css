@@ -23,4 +23,51 @@
   .close {
     margin: 0 -4em 0 0;
   }
+
+  .cart {
+    margin-right: 10px;
+  }
+
+  .badge {
+    padding: 0 3.2px;
+    background-color: #f108e5;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50%;
+    position: relative;
+    top: -10px;
+    right: 45px;
+    width: 1rem;
+  }
+
+  .search-bar {
+    flex: 2;
+    width: 50vw;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 25px;
+    padding: 20px;
+    margin: 0 30px;
+    background-color: white;
+    outline: none;
+  }
+  .search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.search-bar input:focus {
+  border-radius: 25px;
+  padding: 3px 10px;
+}
+
+
+
+
+
 }

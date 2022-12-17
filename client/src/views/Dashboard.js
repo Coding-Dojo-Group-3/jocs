@@ -1,32 +1,16 @@
-import React from 'react'
+import {React, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {userActions} from '../store/index'
 import { gsap } from "gsap";
 import Shoe from "../assets/cartoon.png"
 import NavBar from "../components/NavBar"
+import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
 
 const Dashboard = () => {
-
     const dispatch = useDispatch()
-
-    // const counter = useSelector(state => state.value)
     const user = useSelector(state => state.user)
-
-    // const handleIncrement = () => {
-    //     dispatch(counterActions.increment())
-    // }
-
-    // const handleDecrement = () => {
-    //     dispatch(counterActions.decrement())
-    // }
-
-    // const increaseHandler = () => {
-    //     dispatch(counterActions.increase(5)) 
-    // }
-
-    // const toggleCounterHandler = () => {
-    //     dispatch(counterActions.toggle())
-    // }
+    const navigate = useNavigate()
 
     const mouseEnter = (e) => {
         gsap.to('.arrow', {y:10, duration:0.8, ease:'back.inOut(3)', 
@@ -41,10 +25,24 @@ const Dashboard = () => {
             behavior: 'smooth'});
     }
 
+    useEffect( ()=> {
+        console.log("User: ", user)
+        if(user) {
+            axios.get('http://localhost:8000/api/users/' + user.user?.id, {withCredentials:true} )
+            .then(res => {
+                console.log("Logged In User: ", res.data)
+            })
+            .catch((err)=> {
+                console.log(err);
+            })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user?.user])
 
     return (
         <>
             {/* {user} */}
+            {/* {console.log(user.user)} */}
             <div className="dashboard">
                 <div className="scrollDist"></div>
                 <div className="main">
