@@ -16,8 +16,8 @@ const DisplayAll = () => {
         url: 'https://the-sneaker-database.p.rapidapi.com/sneakers',
         params: {limit: '20'},
         headers: {
-            'X-RapidAPI-Key':"bab2d550f1msh1c440e012c6df05p1b3d5ejsn1d8cfea8cd4e",
-            'X-RapidAPI-Host': 'the-sneaker-database.p.rapidapi.com'
+            'X-RapidAPI-Key':"SECRET_API",
+            'X-RapidAPI-Host': 'SECRET_HOST'
         }
     };
     const getData = async ()=>{
