@@ -8,13 +8,19 @@
   .dashboard {
     width: 100%;
     height: 100%;
-    background:#fff;
     font-family: 'Montserrat', sans-serif;
-    font-size: 99px;
     text-align: center;
   }
 
-  .title {
-    height: 1000px;
+  .nav {
+    background-color: rgb(34 94 146)
+  }
+
+  .list {
+    height: 2000px;
+  }
+
+  .close {
+    margin: 0 -4em 0 0;
   }
 }
