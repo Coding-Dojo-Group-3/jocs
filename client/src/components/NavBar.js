@@ -97,7 +97,7 @@ export default function NavBar() {
                                 </button>
                                 :
                                 <li className="text-white hover:text-blue-600 cursor-pointer">
-                                    <button onClick={() => setShowModal(true)} className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-toggle="authentication-modal">
+                                    <button onClick={() => setShowModal(true)} className="block text-white bg-sky-600 hover:bg-sky-300 focus:ring-4 focus:outline-1 focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-toggle="authentication-modal">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
@@ -137,12 +137,12 @@ export default function NavBar() {
                                     <div className="relative w-auto my-6 mx-auto max-w-3xl">
                                     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     <div className="flex justify-between p-5 border-b border-solid border-slate-200 rounded-t gap-20">
-                                        <h3 className="text-3xl font-semibold">
+                                        <h3 className="text-3xl font-semibold text-cyan-900">
                                             Sign In // Register
                                         </h3>
                                         <div className="close">
                                             <button
-                                                className="text-red-500 ml-10 background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-150 close"
+                                                className="text-red-600 ml-10 background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-150 close"
                                                 onClick={() => setShowModal(false)}
                                             >
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -161,6 +161,7 @@ export default function NavBar() {
                                     <div className="relative p-6 flex-auto">
                                         {
                                             showLogin ? 
+                                            
                                             <Login setShowModal={setShowModal} setShowLogin={setShowLogin}/>
                                             :
                                             <Register setShowModal={setShowModal} setShowLogin={setShowLogin}/>

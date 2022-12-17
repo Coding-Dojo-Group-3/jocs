@@ -39,6 +39,7 @@ const Login = ({setShowLogin}) => {
     return (
         
         <div>
+            <h2 className='text-cyan-600 font-semibold'>Memeber Sign In Here</h2>
                 <form className="mt-6" onSubmit={submitHandler}>
                     <div className="mb-2">
                         <label
@@ -53,7 +54,7 @@ const Login = ({setShowLogin}) => {
                             onChange={changeHandler}
                             type="email"
                             name="email"
-                            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                     </div>
                     <div className="mb-2">
@@ -69,26 +70,26 @@ const Login = ({setShowLogin}) => {
                             onChange={changeHandler}
                             type="password"
                             name="password"
-                            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                         { 
                             errors.message && (<p className="text-red-500 text-xs italic">{errors.message}</p>)
                         }
                     </div>
                     <div className="mt-6">
-                        <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">
+                        <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-sky-800 rounded-md hover:bg-sky-600 focus:outline-none focus:bg-sky-600">
                             Login
                         </button>
                     </div>
                 </form>
 
-                <p className="mt-8 text-xs font-light text-center text-gray-700">
+                <p className="mt-8 text-xs font-bold text-center text-cyan-700">
                     {" "}New to Just 4 Kicks?{" "}
                 </p>
                 <p className="mt-2 text-xs font-light text-center text-gray-700">
                 <button 
                     onClick={handleRegister}
-                    className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 font-bold py-1 px-4 rounded-full"
+                    className="w-24 text-sky-800 bg-gradient-to-r from-sky-300 to-blue-100 hover:from-sky-800 hover:to-sky-700 hover:text-white hover:border-slate-200 font-bold py-1 px-4 rounded border border-1 border-black"
                 >
                     Register
                 </button>
