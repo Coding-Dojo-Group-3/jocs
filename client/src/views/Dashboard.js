@@ -53,7 +53,7 @@ const Dashboard = () => {
                         <mask id="m">
                             <g className="cloud1">
                                 <rect fill="#fff" width="100%" height="801" y="799" />
-                                <image xlinkHref="https://assets.codepen.io/721952/cloud1Mask.jpg" width="1200" height="700"/>
+                                <image xlinkHref="https://assets.codepen.io/721952/cloud1Mask.jpg" width="1200" height="200"/>
                             </g>
                         </mask>
                         <image className="sky" xlinkHref="https://assets.codepen.io/721952/sky.jpg"  width="1200" height="590" />
@@ -69,7 +69,7 @@ const Dashboard = () => {
                     </svg>
                 </div>
             </div>
-            <h1 id="home" className="mt-80  h-full text-9xl dashboard ">JUST 4 KICKS</h1>
+            <h1 id="home" className="h-full text-9xl dashboard ">JUST 4 KICKS</h1>
             <h1 className="title">Shoe List</h1>
         </>
     )
