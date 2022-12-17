@@ -12,8 +12,8 @@
 //         withCredentials:true,
 //         params: {limit: '1',id:id},
 //         headers: {
-//             'X-RapidAPI-Key':"bab2d550f1msh1c440e012c6df05p1b3d5ejsn1d8cfea8cd4e",
-//             'X-RapidAPI-Host': 'the-sneaker-database.p.rapidapi.com'
+//             'X-RapidAPI-Key':"",
+//             'X-RapidAPI-Host': ''
 //         }
 //     };
 //     const getOneProduct = async ()=>{
