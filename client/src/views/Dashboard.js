@@ -4,7 +4,7 @@ import {userActions} from '../store/index'
 import { gsap } from "gsap";
 import { ScrollTo } from "react-scroll-to";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Shoe from "../assets/shoe.png"
+import Shoe from "../assets/cartoon.png"
 
 const Dashboard = () => {
 
