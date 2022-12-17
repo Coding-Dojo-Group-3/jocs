@@ -1,23 +1,50 @@
 import { useState } from "react";
 import Register from './Register'
+import Login from './Login'
+import { useSelector, useDispatch } from 'react-redux'
+import {userActions} from '../store/index'
+import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
 
 
 export default function NavBar() {
     const [navbar, setNavbar] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+    const navigate = useNavigate()
 
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
+
+    const handleLogout = (e) => {
+        console.log("Attempting to logout")
+        axios.get('http://localhost:8000/api/users/logout', {withCredentials:true})
+            .then(()=>{
+                console.log("Successfully logged out")
+                dispatch(userActions.null_user()) 
+                navigate("/")
+            })
+            .catch((err)=>{
+                console.log("Unsuccessful logout: ", err)
+            })
+    }
 
     return (
         <nav className="w-full nav shadow">
             <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-2 md:block">
-                        <h1 className="text-white hover:text-blue-600 cursor-pointer" >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                        </svg>
-
-                        </h1>
+                            {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                            </svg> */}
+                            <div className="search-bar">
+                                <input className="w-4/5 rounded" type="text" placeholder="Search for kicks"/>
+                                <button>
+                                    <svg className="w-6 h-6 ml-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                                    </svg>
+                                </button>
+                            </div>
                         <div className="md:hidden">
                             <button
                                 className="p-2 text-black-700 rounded-md outline-none focus:border-gray-400 focus:border"
@@ -63,18 +90,45 @@ export default function NavBar() {
                         }`}
                     >
                         <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-                            <li className="text-white hover:text-blue-600 cursor-pointer">
-                                <button onClick={() => setShowModal(true)} className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button" data-modal-toggle="authentication-modal">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
+                            {
+                                user?.user ? 
+                                <button onClick={handleLogout} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 font-bold py-1 px-4 rounded-full">
+                                Logout
                                 </button>
-                            </li>
-                            <li className="text-white hover:text-blue-600 cursor-pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                                </svg>
-                            </li>
+                                :
+                                <li className="text-white hover:text-blue-600 cursor-pointer">
+                                    <button onClick={() => setShowModal(true)} className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-toggle="authentication-modal">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </button>
+                                </li>
+                            }
+                            {
+                                user?.user &&                                     
+                                <li className="text-white hover:text-blue-600 cursor-pointer">
+                                    <button className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        onClick={()=> navigate("/user/" + user.user.id)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </button>
+                                </li>
+                            }
+                            {
+                                user?.user &&
+                                <>
+                                    <button onClick={()=> navigate(`/user/${user.user.id}/cart`)}>
+                                        <svg className="cart w-6 h-6 text-white hover:text-blue-600 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                        </svg>
+                                    </button>
+                                    <div className="badge">
+                                        {user?.user?.cart.length}
+                                    </div>
+                                </>
+                            }
                         </ul>
                         {
                             showModal ? (
@@ -84,7 +138,7 @@ export default function NavBar() {
                                     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     <div className="flex justify-between p-5 border-b border-solid border-slate-200 rounded-t gap-20">
                                         <h3 className="text-3xl font-semibold">
-                                            Register
+                                            Sign In // Register
                                         </h3>
                                         <div className="close">
                                             <button
@@ -105,7 +159,12 @@ export default function NavBar() {
                                         </button>
                                     </div>
                                     <div className="relative p-6 flex-auto">
-                                        <Register/>
+                                        {
+                                            showLogin ? 
+                                            <Login setShowModal={setShowModal} setShowLogin={setShowLogin}/>
+                                            :
+                                            <Register setShowModal={setShowModal} setShowLogin={setShowLogin}/>
+                                        }
                                     </div>
                                 </div>
                             </div>
