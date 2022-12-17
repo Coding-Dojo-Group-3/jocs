@@ -63,9 +63,9 @@ module.exports = {
     login: (req, res) => {
         User.findOne({email:req.body.email})
             .then((user)=>{
-                const {_id, firstName, ...other} = user
+                const {_id, firstName, cart, ...other} = user
                 if(user === null) {
-                    res.status(400).json({message:"*Invaild Login Attempt"});
+                    res.status(400).json({message:"*Invalid Login Attempt"});
                 } else {
                     bcrypt.compare(req.body.password, user.password)
                         .then((isPasswordValid)=>{
@@ -73,25 +73,27 @@ module.exports = {
                                 console.log("Password is valid")
                                 const userToken = jwt.sign({
                                     id: user._id,
-                                    firstName: user.firstName
+                                    firstName: user.firstName,
+                                    cart: user.cart
                                 }, process.env.SECRET_KEY)
                                 res
                                     .cookie('usertoken',userToken,{httpOnly:true})
                                     .json({user:
                                         {id: _id,
-                                        firstName: firstName
+                                        firstName: firstName,
+                                        cart: cart
                                     }})
                             } else {
-                                res.status(400).json({message:"*Invaild Login Attempt"});
+                                res.status(400).json({message:"*Invalid Login Attempt"});
                             }
                         })
                         .catch((err)=>{
-                            res.status(400).json({message:"*Invaild Login Attempt",error:err})
+                            res.status(400).json({message:"*Invalid Login Attempt",error:err})
                         })
                 }
             })
             .catch((err)=>{
-                res.status(400).json({message:"*Invaild Login Attempt",error:err})
+                res.status(400).json({message:"*Invalid Login Attempt",error:err})
             })
     },
     logout: (req, res) => {
