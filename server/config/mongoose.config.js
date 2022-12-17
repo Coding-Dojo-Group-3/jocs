@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const DB = "GroupProject"
 
 
-mongoose.connect(`mongodb://localhost/${DB}`, {
+mongoose.connect(`mongodb://127.0.0.1/${DB}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
