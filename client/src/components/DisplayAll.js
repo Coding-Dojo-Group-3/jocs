@@ -87,6 +87,11 @@ const DisplayAll = ({search, setSearch}) => {
         }
     }
 
+    const resetPage = (e) => {
+        setPage(0)
+        setSearch("")
+    }
+
     const handleNext = () => {
         document.getElementById('home').scrollIntoView({
             behavior: 'smooth'})
@@ -109,7 +114,8 @@ const DisplayAll = ({search, setSearch}) => {
                 {
                     search ? 
                         <div>
-                            <button className="ml-20 mt-3 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" onClick={(e)=>setSearch("")}>
+                            <button className="ml-20 mt-3 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+                                onClick={resetPage}>
                                 {search} <span className="clear">X</span>
                             </button>
                         </div>
@@ -170,7 +176,7 @@ const DisplayAll = ({search, setSearch}) => {
                                             </div>
                                             <div>
                                                 <label className='text-cyan-700 font-bold'>Market Value:
-                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.estimatedMarketValue}</span>
+                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.estimatedMarketValue === 0 ? 100 : item.estimatedMarketValue }</span>
                                                 </label>
                                             </div>
                                             <div>
@@ -184,15 +190,17 @@ const DisplayAll = ({search, setSearch}) => {
                                                     <svg aria-hidden="true" className="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                                                 </Link>
                                                 {
-                                                    user?.user ?
-                                                    <button 
-                                                    onClick={addToCart}
-                                                    className="mb-10 ml-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-sky-800 rounded-lg hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-blue-800">
-                                                        Add+
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                                                        </svg>
-                                                    </button>
+                                                    user?.user  ?
+                                                    <>
+                                                        <button 
+                                                        onClick={addToCart}
+                                                        className="mb-10 ml-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-sky-800 rounded-lg hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-blue-800">
+                                                            Add+
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                                            </svg>
+                                                        </button>
+                                                    </>
                                                     :
                                                     <h1 className="mt-2 text-xs italic font-bold">Login to add to cart</h1>
                                                 }
