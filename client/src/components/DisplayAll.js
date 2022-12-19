@@ -3,14 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import noImage from '../assets/noImage.png'
 import { useSelector } from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import moment from 'moment'
 
 const DisplayAll = ({search, setSearch}) => {
 
     const [results,setResults]= useState([])
     const [data,setData]= useState("estimatedMarketValue:desc")
     const [page, setPage]= useState("0")
-    const navigate = useNavigate()
     const user = useSelector(state => state.user)
     const [loaded, setLoaded] = useState(false)
 
@@ -71,7 +70,7 @@ const DisplayAll = ({search, setSearch}) => {
     },[data, page, search])
 
 
-    const addToCart = ()=> {
+    const addToCart = (item)=> {
 
     }
 
@@ -181,7 +180,7 @@ const DisplayAll = ({search, setSearch}) => {
                                             </div>
                                             <div>
                                                 <label className='text-cyan-700 font-bold'>Release date:
-                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> {item.releaseDate === "" ? "TBA" : item.releaseDate}</span>
+                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> {item.releaseDate === "" ? "TBA" : moment(item.releaseDate).format("ll")}</span>
                                                 </label>
                                             </div>
                                             <div className="mt-5">
@@ -190,10 +189,10 @@ const DisplayAll = ({search, setSearch}) => {
                                                     <svg aria-hidden="true" className="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                                                 </Link>
                                                 {
-                                                    user?.user  ?
+                                                    user  ?
                                                     <>
                                                         <button 
-                                                        onClick={addToCart}
+                                                        onClick={addToCart(item)}
                                                         className="mb-10 ml-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-sky-800 rounded-lg hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-blue-800">
                                                             Add+
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -227,7 +226,6 @@ const DisplayAll = ({search, setSearch}) => {
                 </>
                 :
                 <div className="text-center">
-                    {/* <h1 className='list'>Loading</h1> */}
                     <button disabled type="button" className=" font-medium text-2xl items-center">
                         <svg aria-hidden="true" role="status" className="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
