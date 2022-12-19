@@ -42,7 +42,7 @@ const Register = ({setShowModal, setShowLogin}) => {
     return (
         <>
                     <div>
-                        <form className="mt-6"  onSubmit={submitHandler}>
+                        <form className="mt-3"  onSubmit={submitHandler}>
                             <div className="mb-2">
                                 <label
                                     htmlFor="firstName"
@@ -56,7 +56,7 @@ const Register = ({setShowModal, setShowLogin}) => {
                                     value={input.firstName}
                                     onChange={changeHandler}
                                     type="text"
-                                    className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
                                 { 
                                 errors?.firstName ? (<p className="text-red-500 text-xs italic">{errors?.firstName.message}</p>) : null
@@ -75,7 +75,7 @@ const Register = ({setShowModal, setShowLogin}) => {
                                     value={input.lastName}
                                     onChange={changeHandler}
                                     type="text"
-                                    className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
                                 { 
                                 errors?.lastName ? (<p className="text-red-500 text-xs italic">{errors?.lastName.message}</p>) : null
@@ -94,7 +94,7 @@ const Register = ({setShowModal, setShowLogin}) => {
                                     value={input.email}
                                     onChange={changeHandler}
                                     type="email"
-                                    className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
                                 { 
                                 errors?.email ? (<p className="text-red-500 text-xs italic">{errors?.email.message}</p>) : null
@@ -113,7 +113,7 @@ const Register = ({setShowModal, setShowLogin}) => {
                                     value={input.password}
                                     onChange={changeHandler}
                                     type="password"
-                                    className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
                                 { 
                                     errors?.password ? (<p className="text-red-500 text-xs italic">{errors?.password.message}</p>) : null
@@ -132,20 +132,20 @@ const Register = ({setShowModal, setShowLogin}) => {
                                     value={input.confirmPassword}
                                     onChange={changeHandler}
                                     type="password"
-                                    className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
                                 { 
                                     errors?.confirmPassword ? (<p className="text-red-500 text-xs italic">{errors?.confirmPassword.message}</p>) : null
                                 }
                             </div>
                             <div className="mt-6">
-                                <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">
+                                <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-sky-800 rounded-md hover:bg-sky-600 focus:outline-none focus:bg-sky-600">
                                     Submit
                                 </button>
                             </div>
-                        </form>
+                        </form> 
 
-                        <p className="mt-8 text-xs font-light text-center text-gray-700">
+                        <p className="mt-8 text-xs font-bold text-center text-cyan-700">
                             {" "}Already have an account?{" "}
                         </p>
                         <p className="mt-2 text-xs font-light text-center text-gray-700">
