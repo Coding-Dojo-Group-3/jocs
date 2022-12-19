@@ -14,6 +14,8 @@ const Dashboard = () => {
     const user = useSelector(state => state.user)
     const navigate = useNavigate()
     const [search, setSearch]= useState("")
+    const [isLoggedIn, setIsLoggedIn]= useState(false)
+    const [state, setState] = useState()
 
     const mouseEnter = (e) => {
         gsap.to('.arrow', {y:10, duration:0.8, ease:'back.inOut(3)', 
@@ -29,11 +31,10 @@ const Dashboard = () => {
     }
 
     useEffect( ()=> {
-        console.log("User: ", user)
-        if(user) {
-            axios.get('http://localhost:8000/api/users/' + user?.user?.id, {withCredentials:true} )
+        if(isLoggedIn) {
+            axios.get(`http://localhost:8000/api/users/${state.user.id}`, {withCredentials:true} )
             .then(res => {
-                console.log("Logged In User: ", res.data)
+                console.log("Redux User: ", res.data)
                 dispatch(userActions.set_user(res.data)) 
             })
             .catch((err)=> {
@@ -41,12 +42,14 @@ const Dashboard = () => {
             })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?.user])
+    }, [isLoggedIn])
 
     useEffect(()=>{
         axios.post('http://localhost:8000/api/users/isLoggedIn', {}, {withCredentials:true})
         .then((res)=>{
-            console.log(res.data)
+            console.log("Logged In State: ", res.data)
+            setIsLoggedIn(true)
+            setState(res.data)
         })
         .catch((err)=>{
             console.log(err.response.data)
@@ -81,7 +84,7 @@ const Dashboard = () => {
                 </div>
             </div>
             <h1 id="home" className="mt-10 text-9xl dashboard">JUST 4 KICKS</h1>
-            <NavBar search={search} setSearch={setSearch}/>
+            <NavBar search={search} setSearch={setSearch} setIsLoggedIn={setIsLoggedIn}/>
             <DisplayAll search={search} setSearch={setSearch}/>
         </>
     )
