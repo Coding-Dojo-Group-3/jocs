@@ -20,6 +20,7 @@ const Register = ({setShowModal, setShowLogin}) => {
             .then((res)=>{
                 console.log("Success Registration: ", res.data)
                 dispatch(userActions.set_user(res.data)) 
+                setShowModal(false)
                 setInput({})
                 setErrors({})
                 console.log("Saved User Cart:", user.user.cart)

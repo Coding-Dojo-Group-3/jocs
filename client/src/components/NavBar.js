@@ -126,7 +126,7 @@ export default function NavBar({search, setSearch}) {
                                         </svg>
                                     </button>
                                     <div className="badge">
-                                        {user?.user?.cart.length}
+                                        {user?.user?.cart?.length}
                                     </div>
                                 </>
                             }

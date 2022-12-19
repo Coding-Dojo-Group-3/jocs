@@ -31,7 +31,7 @@ const Dashboard = () => {
     useEffect( ()=> {
         console.log("User: ", user)
         if(user) {
-            axios.get('http://localhost:8000/api/users/' + user.user?.id, {withCredentials:true} )
+            axios.get('http://localhost:8000/api/users/' + user?.user?.id, {withCredentials:true} )
             .then(res => {
                 console.log("Logged In User: ", res.data)
             })
@@ -41,6 +41,19 @@ const Dashboard = () => {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user?.user])
+
+    useEffect(()=>{
+        axios.post('http://localhost:8000/api/users/isLoggedIn', {}, {withCredentials:true})
+        .then((res)=>{
+            console.log(res.data)
+            dispatch(userActions.set_user(res.data)) 
+        })
+        .catch((err)=>{
+            console.log(err.response.data)
+            dispatch(userActions.null_user()) 
+        })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+        },[])
 
     return (
         <>
