@@ -34,6 +34,7 @@ const Dashboard = () => {
             axios.get('http://localhost:8000/api/users/' + user?.user?.id, {withCredentials:true} )
             .then(res => {
                 console.log("Logged In User: ", res.data)
+                dispatch(userActions.set_user(res.data)) 
             })
             .catch((err)=> {
                 console.log(err);
@@ -46,7 +47,6 @@ const Dashboard = () => {
         axios.post('http://localhost:8000/api/users/isLoggedIn', {}, {withCredentials:true})
         .then((res)=>{
             console.log(res.data)
-            dispatch(userActions.set_user(res.data)) 
         })
         .catch((err)=>{
             console.log(err.response.data)
