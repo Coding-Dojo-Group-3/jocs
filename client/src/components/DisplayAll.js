@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import noImage from '../assets/noImage.png'
 import { useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
+import moment from 'moment'
 
 const DisplayAll = ({search, setSearch}) => {
 
@@ -181,7 +182,7 @@ const DisplayAll = ({search, setSearch}) => {
                                             </div>
                                             <div>
                                                 <label className='text-cyan-700 font-bold'>Release date:
-                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> {item.releaseDate === "" ? "TBA" : item.releaseDate}</span>
+                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> {item.releaseDate === "" ? "TBA" : moment(item.releaseDate).format("ll")}</span>
                                                 </label>
                                             </div>
                                             <div className="mt-5">
