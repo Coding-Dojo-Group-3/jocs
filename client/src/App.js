@@ -2,6 +2,9 @@ import './App.css';
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 
 import Dashboard from './views/Dashboard'
+import DisplayAll from './views/DisplayAll';
+import Cart from './views/Cart';
+import OneProduct from './views/OneProduct';
 
 function App() {
   return (
@@ -13,6 +16,15 @@ function App() {
 
           {/* Create and Read */}
           <Route path="/dashboard" element={<Dashboard/>} />
+          {/* DISPLAY ALL */}
+          <Route path="/displayall" element={<DisplayAll/>} />
+
+          {/* not working at the moment....>>>... */}
+          {/* SINGLE PRODUCT */}
+          {/* <Route path="/product/:id" element={<OneProduct/>} /> */}
+          {/* CART/BAG */}
+
+          {/* <Route path='/cart' element={<Cart/>}/> */}
 
           {/* Update */}
           
