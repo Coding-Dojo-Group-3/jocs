@@ -39,8 +39,7 @@ const Login = ({setShowLogin}) => {
     return (
         
         <div>
-            <h2 className='text-cyan-600 font-semibold'>Memeber Sign In Here</h2>
-                <form className="mt-6" onSubmit={submitHandler}>
+                <form className="mt-3" onSubmit={submitHandler}>
                     <div className="mb-2">
                         <label
                             htmlFor="email"
@@ -89,7 +88,7 @@ const Login = ({setShowLogin}) => {
                 <p className="mt-2 text-xs font-light text-center text-gray-700">
                 <button 
                     onClick={handleRegister}
-                    className="w-24 text-sky-800 bg-gradient-to-r from-sky-300 to-blue-100 hover:from-sky-800 hover:to-sky-700 hover:text-white hover:border-slate-200 font-bold py-1 px-4 rounded border border-1 border-black"
+                    className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 font-bold py-1 px-4 rounded-full"
                 >
                     Register
                 </button>
