@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 
 
-export default function NavBar({search, setSearch}) {
+export default function NavBar({search, setSearch, setIsLoggedIn}) {
     const [navbar, setNavbar] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
@@ -21,6 +21,7 @@ export default function NavBar({search, setSearch}) {
         axios.get('http://localhost:8000/api/users/logout', {withCredentials:true})
             .then(()=>{
                 console.log("Successfully logged out")
+                setIsLoggedIn(false)
                 dispatch(userActions.null_user()) 
                 window.scrollTo(0,0);
                 navigate("/")

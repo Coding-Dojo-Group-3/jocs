@@ -22,12 +22,13 @@ const ViewCart = () => {
             })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?.user])
+    }, [])
 
     useEffect(()=>{
         axios.post('http://localhost:8000/api/users/isLoggedIn', {}, {withCredentials:true})
         .then((res)=>{
             console.log("Logged in: ",  res.data.user.firstName)
+            
         })
         .catch((err)=>{
             console.log(err.response.data)
