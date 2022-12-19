@@ -80,7 +80,7 @@ const DisplayAll = ({search, setSearch}) => {
             behavior: 'smooth'})
         let temp = page
         let number= Number(temp)
-        if(temp !== "0") {
+        if(number !== 0) {
             number--
             String(number)
             setPage(number)
@@ -134,7 +134,7 @@ const DisplayAll = ({search, setSearch}) => {
             loaded ?
             <>
                     <div className='h-full pt-3 pb-20 mx-6'>
-                        <div className='grid grid-cols-4 gap-4 text-center'>
+                        <div className='grid grid-cols-4 gap-5 text-center'>
                             {results.map((item, index)=>{
                                 return(
                                     <div key={index} className='capitalize max-w-full max-h-full'>
