@@ -16,7 +16,7 @@ const DisplayAll = () => {
         url: 'https://the-sneaker-database.p.rapidapi.com/sneakers',
         params: {limit: '20'},
         headers: {
-            'X-RapidAPI-Key':SECRET_API_KEY,
+            'X-RapidAPI-Key': SECRET_API_KEY,
             'X-RapidAPI-Host': SECRET_HOST,
         }
     };
