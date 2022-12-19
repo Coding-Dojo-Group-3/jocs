@@ -1,4 +1,4 @@
-import {React, useEffect} from 'react'
+import {React, useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {userActions} from '../store/index'
 import { gsap } from "gsap";
@@ -6,11 +6,13 @@ import Shoe from "../assets/cartoon.png"
 import NavBar from "../components/NavBar"
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
+import DisplayAll from '../components/DisplayAll';
 
 const Dashboard = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const navigate = useNavigate()
+    const [search, setSearch]= useState("")
 
     const mouseEnter = (e) => {
         gsap.to('.arrow', {y:10, duration:0.8, ease:'back.inOut(3)', 
@@ -41,8 +43,6 @@ const Dashboard = () => {
 
     return (
         <>
-            {/* {user} */}
-            {/* {console.log(user.user)} */}
             <div className="dashboard">
                 <div className="scrollDist"></div>
                 <div className="main">
@@ -67,8 +67,8 @@ const Dashboard = () => {
                 </div>
             </div>
             <h1 id="home" className="mt-10 text-9xl dashboard">JUST 4 KICKS</h1>
-            <NavBar/>
-            <h1 className="list">Shoe List</h1>
+            <NavBar search={search} setSearch={setSearch}/>
+            <DisplayAll search={search} setSearch={setSearch}/>
         </>
     )
 }
