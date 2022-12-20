@@ -4,7 +4,7 @@ import {React, useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {userActions} from '../store/index'
 import Cart  from "../components/Cart"
-import {useParams, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 const ViewCart = () => {
     const dispatch = useDispatch()
@@ -12,7 +12,6 @@ const ViewCart = () => {
     const [isLoggedIn, setIsLoggedIn]= useState(false)
     const [state, setState] = useState()
     const navigate = useNavigate()
-    const {id} = useParams()
 
     useEffect( ()=> {
         if(isLoggedIn) {
@@ -46,8 +45,7 @@ const ViewCart = () => {
     <>
         <h1 id="home" className="text-9xl dashboard">JUST 4 KICKS</h1>
         <CartNavBar/>
-        <Cart user={user} id={id}/>
-        {/* {console.log("Redux user cart: ", user.cart)} */}
+        <Cart user={user}/>
     </>
     )
 }
