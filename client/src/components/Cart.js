@@ -4,7 +4,7 @@ const Cart = ({user}) => {
     return (
         <>
             {
-                user.cart.map((item, index)=>{
+                user?.cart.map((item, index)=>{
                     return (
                         <div key={index}>
                         {console.log("Items in our cart: ", item)}
