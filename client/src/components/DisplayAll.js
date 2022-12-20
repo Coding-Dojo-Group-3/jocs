@@ -4,14 +4,20 @@ import { Link } from 'react-router-dom';
 import noImage from '../assets/noImage.png'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
+import {useNavigate} from 'react-router-dom'
+
 
 const DisplayAll = ({search, setSearch}) => {
+    
+    const API_HOST = process.env.REACT_APP_SECRET_HOST
+    const API_KEY = process.env.REACT_APP_API_KEY
 
     const [results,setResults]= useState([])
     const [data,setData]= useState("estimatedMarketValue:desc")
     const [page, setPage]= useState("0")
     const user = useSelector(state => state.user)
     const [loaded, setLoaded] = useState(false)
+    const navigate = useNavigate()
 
     const options = {
         method: 'GET',
@@ -22,8 +28,8 @@ const DisplayAll = ({search, setSearch}) => {
             sort: data
         },
         headers: {
-            'X-RapidAPI-Key': "bab2d550f1msh1c440e012c6df05p1b3d5ejsn1d8cfea8cd4e",
-            'X-RapidAPI-Host': "the-sneaker-database.p.rapidapi.com",
+            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Host': API_HOST,
         }
     };
 
@@ -31,8 +37,8 @@ const DisplayAll = ({search, setSearch}) => {
         method: 'GET',
         url: `https://the-sneaker-database.p.rapidapi.com/search?limit=12&query=${search}&page=${page}`,
         headers: {
-            'X-RapidAPI-Key': "bab2d550f1msh1c440e012c6df05p1b3d5ejsn1d8cfea8cd4e",
-            'X-RapidAPI-Host': "the-sneaker-database.p.rapidapi.com",
+            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Host': API_HOST,
         }
     }
 
@@ -71,8 +77,22 @@ const DisplayAll = ({search, setSearch}) => {
 
 
     const addToCart = (item)=> {
-
-    }
+        console.log("Attempting to add to cart", item)
+        let newUserCart = [...user.cart, item]
+        let newUser = {...user}
+        newUser.cart = newUserCart
+        console.log("New user cart: ", newUser.cart)
+        let id = user._id
+        delete newUser._id
+        axios.put(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
+            .then((res) => {
+                console.log(res.data);
+                navigate(`/user/cart/${user._id}`);
+            })
+            .catch((err) => {
+                console.log("Error in add to cart: ", err);
+            });
+    };
 
     const handlePrevious = () => {
         document.getElementById('home').scrollIntoView({
@@ -192,7 +212,7 @@ const DisplayAll = ({search, setSearch}) => {
                                                     user  ?
                                                     <>
                                                         <button 
-                                                        onClick={addToCart(item)}
+                                                        onClick={(e)=>addToCart(item)}
                                                         className="mb-10 ml-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-sky-800 rounded-lg hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-blue-800">
                                                             Add+
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
