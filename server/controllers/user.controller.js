@@ -36,8 +36,9 @@ module.exports = {
     },
     delete: (req, res) => {
         User.deleteOne({ _id: req.params.id })
-            .then(result => {
-                res.json(result)
+            .then(res => {
+                res.clearCookie('usertoken');
+                res.status(200).json({user:"Deleted"})
             })
             .catch((err) => {
                 res.status(400).json({ message: 'Something went wrong!', error: err })
@@ -99,5 +100,28 @@ module.exports = {
     logout: (req, res) => {
         res.clearCookie('usertoken');
         res.status(200).json({user:"Logged Out"})
+    },
+    updatePassword: (req, res) => {
+        if(req.body.password !== req.body.confirmPassword) {
+            res.status(400).json({message:"Passwords do not match"})
+        } else {
+            bcrypt.hash(req.body.password, 10)
+                .then((hashedPassword)=>{
+                    User.findOneAndUpdate(
+                        {_id: req.params.id},
+                        {password: hashedPassword},
+                        {new: true, runValidators: true, context: 'query'}
+                    )
+                        .then(result => {
+                            res.status(200).json(result)
+                        })
+                        .catch((err) => {
+                            res.status(400).json({ message: 'Something went wrong!', error: err })
+                        });
+                })
+                .catch((err)=>{
+                    res.status(400).json({message:"Something went wrong",error:err})
+                })
+        }
     }
 }

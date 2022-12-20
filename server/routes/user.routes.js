@@ -11,7 +11,8 @@ module.exports = app => {
     app.post('/api/users/isLoggedIn', isLoggedIn)
     app.get('/api/users/:id', authenticate, UserController.getOne);
     // UPDATE
-    app.put('/api/users/:id', UserController.update);
+    app.patch('/api/users/:id', UserController.update);
+    app.patch('/api/users/:id/password', UserController.updatePassword);
     // DELETE
     app.delete('/api/users/:id', UserController.delete);
 }
