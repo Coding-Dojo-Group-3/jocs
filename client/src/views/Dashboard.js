@@ -32,6 +32,8 @@ const Dashboard = () => {
 
     useEffect( ()=> {
         if(isLoggedIn) {
+            document.getElementById('home').scrollIntoView({
+                behavior: 'smooth'});
             axios.get(`http://localhost:8000/api/users/${state.user.id}`, {withCredentials:true} )
             .then(res => {
                 console.log("Redux User: ", res.data)

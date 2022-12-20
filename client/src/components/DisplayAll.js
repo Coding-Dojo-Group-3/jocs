@@ -2,9 +2,10 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import noImage from '../assets/noImage.png'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 import {useNavigate} from 'react-router-dom'
+import {userActions} from '../store/index'
 
 
 const DisplayAll = ({search, setSearch}) => {
@@ -19,9 +20,8 @@ const DisplayAll = ({search, setSearch}) => {
     const [loaded, setLoaded] = useState(false)
     const navigate = useNavigate()
 
+    const dispatch = useDispatch()
     
-
-
     const options = {
         method: 'GET',
         url: `https://the-sneaker-database.p.rapidapi.com/sneakers`,
@@ -87,9 +87,10 @@ const DisplayAll = ({search, setSearch}) => {
         console.log("New user cart: ", newUser.cart)
         let id = user._id
         delete newUser._id
-        axios.put(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
+        axios.patch(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
             .then((res) => {
                 console.log(res.data);
+                dispatch(userActions.set_user()) 
                 navigate(`/user/cart/${user._id}`);
             })
             .catch((err) => {
@@ -128,6 +129,10 @@ const DisplayAll = ({search, setSearch}) => {
         document.getElementById('home').scrollIntoView({
             behavior: 'smooth'})
         setData(e.target.value)
+    }
+
+    const numberWithCommas= (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     return (
@@ -193,12 +198,12 @@ const DisplayAll = ({search, setSearch}) => {
                                             </div>
                                             <div>
                                                 <label className='text-cyan-700 font-bold'>Retail Price:
-                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.retailPrice}</span>
+                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${numberWithCommas(item.retailPrice)}</span>
                                                 </label>
                                             </div>
                                             <div>
                                                 <label className='text-cyan-700 font-bold'>Market Value:
-                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.estimatedMarketValue === 0 ? 100 : item.estimatedMarketValue }</span>
+                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.estimatedMarketValue === 0 ? 100 : numberWithCommas(item.estimatedMarketValue) }</span>
                                                 </label>
                                             </div>
                                             <div>
