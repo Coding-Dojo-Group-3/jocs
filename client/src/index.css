@@ -41,6 +41,10 @@
     width: 1rem;
   }
 
+  .home {
+    margin: .2em 0 0 0;
+  }
+
   .search-bar {
     flex: 2;
     width: 50vw;

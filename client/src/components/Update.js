@@ -6,19 +6,23 @@ import {userActions} from '../store/index'
 
 
 
-const Register = ({setShowModal, setShowLogin}) => {
+const Update = ({setShowModal}) => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const navigate = useNavigate()
-    const [input,setInput] = useState({})
+    const [input,setInput] = useState({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+    })
     const [errors, setErrors] = useState({});
 
     const submitHandler=(e)=>{
-        console.log("Attempting to register")
+        console.log("Attempting to update")
         e.preventDefault()
-        axios.post('http://localhost:8000/api/users/register', input, {withCredentials:true})
+        axios.patch(`http://localhost:8000/api/users/${user._id}`, input, {withCredentials:true})
             .then((res)=>{
-                console.log("Success Registration: ", res.data)
+                console.log("Success Update: ", res.data)
                 dispatch(userActions.set_user(res.data)) 
                 setShowModal(false)
                 setInput({})
@@ -27,8 +31,48 @@ const Register = ({setShowModal, setShowLogin}) => {
                 navigate('/')
             })
             .catch((err)=>{
-                console.log("Registration errors: ", err.response.data.error.errors)
+                console.log("Update errors: ", err.response.data.error.errors)
                 setErrors(err.response.data.error.errors)
+            })
+    }
+
+    const submitPassHandler=(e)=>{
+        console.log("Attempting to update password")
+        e.preventDefault()
+        axios.patch(`http://localhost:8000/api/users/${user._id}/password`, input, {withCredentials:true})
+            .then((res)=>{
+                console.log("Success Update: ", res.data)
+                if(res.data.cart===undefined){
+                    res.data.cart = []
+                }
+                dispatch(userActions.set_user(res.data))
+                setShowModal(false)
+                setInput({})
+                setErrors({})
+                console.log("Saved User Cart:", user.user.cart)
+                navigate('/')
+            })
+            .catch((err)=>{
+                console.log("Update errors: ", err)
+                setErrors(err)
+            })
+    }
+
+    const deleteHandler=(e)=>{
+        console.log("Attempting to delete")
+        e.preventDefault()
+        axios.delete(`http://localhost:8000/api/users/${user._id}`, {withCredentials:true})
+            .then((res)=>{
+                console.log("Success Delete: ", res.data)
+                dispatch(userActions.set_user({}))
+                setShowModal(false)
+                setInput({})
+                setErrors({})
+                navigate('/')
+            })
+            .catch((err)=>{
+                console.log("Delete errors: ", err)
+                setErrors(err)
             })
     }
 
@@ -36,10 +80,6 @@ const Register = ({setShowModal, setShowLogin}) => {
         setInput({...input,[e.target.name]:e.target.value})
     }
 
-    const handleSignIn = (e)=>{
-        setShowLogin(true)
-    }
-    
     return (
         <>
                     <div>
@@ -101,6 +141,16 @@ const Register = ({setShowModal, setShowLogin}) => {
                                 errors?.email ? (<p className="text-red-500 text-xs italic">{errors?.email.message}</p>) : null
                                 }
                             </div>
+                            <div className="mt-6 mb-6">
+                                <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-sky-800 rounded-md hover:bg-sky-600 focus:outline-none focus:bg-sky-600">
+                                    Update Settings
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div  className='border-t border-solid border-slate-200'>
+                        <h3 className='mt-2 mb-2 text-lg font-bold'>Change Password</h3>
+                        <form onSubmit={submitPassHandler}>
                             <div className="mb-2">
                                 <label
                                     htmlFor="password"
@@ -139,28 +189,24 @@ const Register = ({setShowModal, setShowLogin}) => {
                                     errors?.confirmPassword ? (<p className="text-red-500 text-xs italic">{errors?.confirmPassword.message}</p>) : null
                                 }
                             </div>
-                            <div className="mt-6">
+                            <div className="mt-6 mb-3">
                                 <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-sky-800 rounded-md hover:bg-sky-600 focus:outline-none focus:bg-sky-600">
-                                    Submit
+                                    Update Password
                                 </button>
                             </div>
-                        </form> 
-
-                        <p className="mt-8 text-xs font-bold text-center text-cyan-700">
-                            {" "}Already have an account?{" "}
-                        </p>
-                        <p className="mt-2 text-xs font-light text-center text-gray-700">
-                            <button 
-                                onClick={handleSignIn}
-                                className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 font-bold py-1 px-4 rounded-full"
-                            >
-                                Sign in
-                            </button>
-                        </p>
+                        </form>
                     </div>
+                    <div  className='border-t border-solid border-slate-200'>
+                        <div className="mt-3">
+                            <button onClick={deleteHandler} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-red-800 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                Delete Account
+                            </button>
+                        </div>
+                    </div>
+
 
         </>
     )
 }
 
-export default Register
+export default Update

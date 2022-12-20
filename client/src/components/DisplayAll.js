@@ -3,16 +3,21 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import noImage from '../assets/noImage.png'
 import { useSelector } from 'react-redux'
+import moment from 'moment'
 import {useNavigate} from 'react-router-dom'
 
+
 const DisplayAll = ({search, setSearch}) => {
+    
+    const API_HOST = process.env.REACT_APP_SECRET_HOST
+    const API_KEY = process.env.REACT_APP_API_KEY
 
     const [results,setResults]= useState([])
     const [data,setData]= useState("estimatedMarketValue:desc")
     const [page, setPage]= useState("0")
-    const navigate = useNavigate()
     const user = useSelector(state => state.user)
     const [loaded, setLoaded] = useState(false)
+    const navigate = useNavigate()
 
     const options = {
         method: 'GET',
@@ -23,8 +28,8 @@ const DisplayAll = ({search, setSearch}) => {
             sort: data
         },
         headers: {
-            'X-RapidAPI-Key': "bab2d550f1msh1c440e012c6df05p1b3d5ejsn1d8cfea8cd4e",
-            'X-RapidAPI-Host': "the-sneaker-database.p.rapidapi.com",
+            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Host': API_HOST,
         }
     };
 
@@ -32,8 +37,8 @@ const DisplayAll = ({search, setSearch}) => {
         method: 'GET',
         url: `https://the-sneaker-database.p.rapidapi.com/search?limit=12&query=${search}&page=${page}`,
         headers: {
-            'X-RapidAPI-Key': "bab2d550f1msh1c440e012c6df05p1b3d5ejsn1d8cfea8cd4e",
-            'X-RapidAPI-Host': "the-sneaker-database.p.rapidapi.com",
+            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Host': API_HOST,
         }
     }
 
@@ -71,20 +76,39 @@ const DisplayAll = ({search, setSearch}) => {
     },[data, page, search])
 
 
-    const addToCart = ()=> {
-
-    }
+    const addToCart = (item)=> {
+        console.log("Attempting to add to cart", item)
+        let newUserCart = [...user.cart, item]
+        let newUser = {...user}
+        newUser.cart = newUserCart
+        console.log("New user cart: ", newUser.cart)
+        let id = user._id
+        delete newUser._id
+        axios.put(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
+            .then((res) => {
+                console.log(res.data);
+                navigate(`/user/cart/${user._id}`);
+            })
+            .catch((err) => {
+                console.log("Error in add to cart: ", err);
+            });
+    };
 
     const handlePrevious = () => {
         document.getElementById('home').scrollIntoView({
             behavior: 'smooth'})
         let temp = page
         let number= Number(temp)
-        if(temp !== "0") {
+        if(number !== 0) {
             number--
             String(number)
             setPage(number)
         }
+    }
+
+    const resetPage = (e) => {
+        setPage(0)
+        setSearch("")
     }
 
     const handleNext = () => {
@@ -109,7 +133,8 @@ const DisplayAll = ({search, setSearch}) => {
                 {
                     search ? 
                         <div>
-                            <button className="ml-20 mt-3 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" onClick={(e)=>setSearch("")}>
+                            <button className="ml-20 mt-3 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+                                onClick={resetPage}>
                                 {search} <span className="clear">X</span>
                             </button>
                         </div>
@@ -134,7 +159,7 @@ const DisplayAll = ({search, setSearch}) => {
             loaded ?
             <>
                     <div className='h-full pt-3 pb-20 mx-6'>
-                        <div className='grid grid-cols-4 gap-4 text-center'>
+                        <div className='grid grid-cols-4 gap-5 text-center'>
                             {results.map((item, index)=>{
                                 return(
                                     <div key={index} className='capitalize max-w-full max-h-full'>
@@ -170,12 +195,12 @@ const DisplayAll = ({search, setSearch}) => {
                                             </div>
                                             <div>
                                                 <label className='text-cyan-700 font-bold'>Market Value:
-                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.estimatedMarketValue}</span>
+                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.estimatedMarketValue === 0 ? 100 : item.estimatedMarketValue }</span>
                                                 </label>
                                             </div>
                                             <div>
                                                 <label className='text-cyan-700 font-bold'>Release date:
-                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> {item.releaseDate === "" ? "TBA" : item.releaseDate}</span>
+                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> {item.releaseDate === "" ? "TBA" : moment(item.releaseDate).format("ll")}</span>
                                                 </label>
                                             </div>
                                             <div className="mt-5">
@@ -184,15 +209,17 @@ const DisplayAll = ({search, setSearch}) => {
                                                     <svg aria-hidden="true" className="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                                                 </Link>
                                                 {
-                                                    user?.user ?
-                                                    <button 
-                                                    onClick={addToCart}
-                                                    className="mb-10 ml-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-sky-800 rounded-lg hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-blue-800">
-                                                        Add+
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                                                        </svg>
-                                                    </button>
+                                                    user  ?
+                                                    <>
+                                                        <button 
+                                                        onClick={(e)=>addToCart(item)}
+                                                        className="mb-10 ml-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-sky-800 rounded-lg hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-blue-800">
+                                                            Add+
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                                            </svg>
+                                                        </button>
+                                                    </>
                                                     :
                                                     <h1 className="mt-2 text-xs italic font-bold">Login to add to cart</h1>
                                                 }
@@ -219,7 +246,6 @@ const DisplayAll = ({search, setSearch}) => {
                 </>
                 :
                 <div className="text-center">
-                    {/* <h1 className='list'>Loading</h1> */}
                     <button disabled type="button" className=" font-medium text-2xl items-center">
                         <svg aria-hidden="true" role="status" className="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
