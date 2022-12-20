@@ -1,6 +1,6 @@
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import Dashboard from './views/Dashboard'
-import SingleProduct from './components/SingleProduct';
+import ViewShoe from './views/ViewShoe';
 import ViewCart from './views/ViewCart';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
           {/* Create and Read */}
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/user/cart/:id" element={<ViewCart/>} />
-          <Route path="/shoe/:id" element={<SingleProduct/>} />
+          <Route path="/shoe/:id" element={<ViewShoe/>} />
 
           {/* Update */}
           
