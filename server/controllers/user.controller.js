@@ -75,7 +75,7 @@ module.exports = {
                                 const userToken = jwt.sign({
                                     id: user._id,
                                     firstName: user.firstName,
-                                    cart: user.cart
+                                    // cart: user.cart
                                 }, process.env.SECRET_KEY)
                                 res
                                     .cookie('usertoken',userToken,{httpOnly:true})

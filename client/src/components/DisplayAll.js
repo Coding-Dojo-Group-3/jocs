@@ -19,9 +19,12 @@ const DisplayAll = ({search, setSearch}) => {
     const [loaded, setLoaded] = useState(false)
     const navigate = useNavigate()
 
+    
+
+
     const options = {
         method: 'GET',
-        url: `https://the-sneaker-database.p.rapidapi.com/sneakers/`,
+        url: `https://the-sneaker-database.p.rapidapi.com/sneakers`,
         params: {
             limit: '12',
             page: page,
