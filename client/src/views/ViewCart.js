@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {userActions} from '../store/index'
 import Cart  from "../components/Cart"
 import {useNavigate} from 'react-router-dom'
+import PayPalButton from "../components/PayPalButton"
 
 const ViewCart = () => {
     const dispatch = useDispatch()
@@ -51,6 +52,29 @@ const ViewCart = () => {
         return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
 
+    const clearCart = (e)=>{
+        console.log("Attempting to move cart to history then clear cart: ")
+        let newUserCart = [...user.cart]
+        console.log("Current cart: ", newUserCart)
+        let newUserHistory = [...user.history, {newUserCart}]
+        console.log("Cart added to history", newUserHistory)
+        let newUser = {...user}
+        newUser.cart = []
+        newUser.history = newUserHistory
+        console.log("Empty Cart with History: ", newUser)
+        let id = user._id
+        delete newUser._id
+        console.log("New user with empty cart, history, and no _id: ", newUser)
+        axios.patch(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
+            .then((res) => {
+                console.log(res.data);
+                dispatch(userActions.set_user(res.data)) 
+            })
+            .catch((err) => {
+                console.log("Error in remove from cart: ", err);
+            });
+    };
+
     return (
     <>
         <h1 id="home" className="text-9xl dashboard">JUST 4 KICKS</h1>
@@ -77,7 +101,9 @@ const ViewCart = () => {
                         <h2>${calcTotal()}</h2>
                     </div>
                     <div className="grid place-items-center mt-10">
-                        <button className="bg-black text-white pr-6 pl-6 pt-2 pb-2 uppercase">Proceed to Checkout</button>
+                        {/* <button className="bg-black text-white pr-6 pl-6 pt-2 pb-2 uppercase">Proceed to Checkout</button> */}
+                        {/* <PayPalButton total={calcTotal()} clearCart={clearCart}/> */}
+                        <PayPalButton clearCart={clearCart}/>
                     </div>
                 </div>
             </div>
