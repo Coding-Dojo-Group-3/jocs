@@ -1,0 +1,929 @@
+@import url("https://fonts.googleapis.com/css2?family=Tourney:wght@900&display=swap");
+/*
+font-family: 'Tourney', cursive;
+*/
+
+/* * {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+} */
+
+:root {
+	--length-unit: min(2.5vw, 1.5rem);
+	--ufo-length-unit: 0.5vmin;
+	--speed: 2s;
+	--ufo-travel: 15s;
+	--yellow: hsl(45deg, 100%, 45%);
+}
+
+.body_ {
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+}
+
+section {
+	height: 100vh;
+	width: 100vw;
+	background: radial-gradient(circle at left, #1b2735 0%, transparent 100%);
+	overflow: hidden;
+	position: relative;
+	z-index: 10;
+}
+
+.h1_ {
+	font-family: "Courier New", Courier, monospace;
+	font-size: calc(4.5 * var(--length-unit));
+	color: hsl(0deg, 0%, 90%);
+	text-align: center;
+	padding-top: 1rem;
+	text-shadow: 0px 0px calc(1.5 * var(--length-unit)) hsl(0deg, 0%, 95%, 0.75);
+}
+
+.number {
+	font-family: "Tourney", cursive;
+	position: absolute;
+	width: calc(50vw - calc(10 * var(--length-unit)));
+	top: 50%;
+	transform: translateY(-50%);
+	color: hsl(180deg, 100%, 75%, 0.75);
+	font-size: calc(15 * var(--length-unit));
+}
+
+.number-left {
+	text-align: right;
+	-webkit-animation: var(--ufo-travel) left-apparition
+		cubic-bezier(0.1, 0.5, 0.9, 0.5) forwards;
+	animation: var(--ufo-travel) left-apparition cubic-bezier(0.1, 0.5, 0.9, 0.5)
+		forwards;
+}
+
+.number-right {
+	text-align: left;
+	right: 0;
+	-webkit-animation: var(--ufo-travel) right-apparition linear forwards;
+	animation: var(--ufo-travel) right-apparition linear forwards;
+}
+
+@-webkit-keyframes left-apparition {
+	0%,
+	25% {
+		opacity: 0;
+	}
+	30%,
+	35% {
+		opacity: 0.33;
+	}
+	40%,
+	45% {
+		opacity: 0.66;
+	}
+	46% {
+		opacity: 1;
+	}
+}
+
+@keyframes left-apparition {
+	0%,
+	25% {
+		opacity: 0;
+	}
+	30%,
+	35% {
+		opacity: 0.33;
+	}
+	40%,
+	45% {
+		opacity: 0.66;
+	}
+	46% {
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes right-apparition {
+	0%,
+	60% {
+		opacity: 0;
+	}
+	65%,
+	70% {
+		opacity: 0.33;
+	}
+	75%,
+	80% {
+		opacity: 0.66;
+	}
+	81% {
+		opacity: 1;
+	}
+}
+
+@keyframes right-apparition {
+	0%,
+	60% {
+		opacity: 0;
+	}
+	65%,
+	70% {
+		opacity: 0.33;
+	}
+	75%,
+	80% {
+		opacity: 0.66;
+	}
+	81% {
+		opacity: 1;
+	}
+}
+
+/* ===> MY-PLANET <=== */
+
+/* => PLANET <= */
+
+.my-planet {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(-30deg);
+}
+
+/* I create the ellipsis by deforming a circle using scaleX property.
+It will rotate around its center*/
+
+.my-planet-ellipsis-container {
+	height: calc(7.5 * var(--length-unit));
+	width: calc(7.5 * var(--length-unit));
+	-webkit-animation: my-planet-rotation var(--speed) infinite linear;
+	animation: my-planet-rotation var(--speed) infinite linear;
+	transform-origin: 50% 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border-radius: 50%;
+}
+
+.my-planet-counter-rotation-container {
+	position: relative;
+	height: calc(10 * var(--length-unit));
+	width: calc(10 * var(--length-unit));
+	-webkit-animation: my-planet-counter-rotation var(--speed) infinite linear;
+	animation: my-planet-counter-rotation var(--speed) infinite linear;
+}
+
+.my-planet-planet {
+	position: absolute;
+	height: calc(10 * var(--length-unit));
+	width: calc(10 * var(--length-unit));
+	background-image: url(https://zupimages.net/up/21/38/qza3.png); /* planet texture, homemade :) */
+	background-size: calc(20 * var(--length-unit)) auto;
+	border-radius: 50%;
+	transform: scaleX(0.33) rotate(10deg);
+	-webkit-animation: var(--speed) texture-movement linear infinite;
+	animation: var(--speed) texture-movement linear infinite;
+}
+
+@-webkit-keyframes texture-movement {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-10 * var(--length-unit));
+	}
+}
+
+@keyframes texture-movement {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-10 * var(--length-unit));
+	}
+}
+
+@-webkit-keyframes my-planet-rotation {
+	from {
+		transform: translate(-50%, -50%) scaleX(3) rotateZ(360deg);
+	}
+	to {
+		transform: translate(-50%, -50%) scaleX(3) rotateZ(0deg);
+	}
+}
+
+@keyframes my-planet-rotation {
+	from {
+		transform: translate(-50%, -50%) scaleX(3) rotateZ(360deg);
+	}
+	to {
+		transform: translate(-50%, -50%) scaleX(3) rotateZ(0deg);
+	}
+}
+
+@-webkit-keyframes my-planet-counter-rotation {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	33% {
+		transform: rotateZ(120deg) scale(0.9);
+	}
+	100% {
+		transform: rotateZ(360deg);
+	}
+}
+
+@keyframes my-planet-counter-rotation {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	33% {
+		transform: rotateZ(120deg) scale(0.9);
+	}
+	100% {
+		transform: rotateZ(360deg);
+	}
+}
+
+/* => FACE <= */
+
+.my-planet-face {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform-style: preserve-3d;
+	transform-origin: 50% 50% calc(-4.5 * var(--length-unit));
+	transform: translate(-50%, -50%);
+	-webkit-animation: var(--speed) rotation linear infinite backwards;
+	animation: var(--speed) rotation linear infinite backwards;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.my-planet-eye {
+	position: absolute;
+	height: calc(2 * var(--length-unit));
+	width: calc(1.75 * var(--length-unit));
+	background: white;
+	border-radius: calc(1 * var(--length-unit));
+	top: 20%;
+}
+
+.my-planet-eye-right {
+	right: 25%;
+}
+
+.my-planet-eye-left {
+	left: 25%;
+}
+
+.my-planet-eye:after {
+	content: "";
+	position: absolute;
+	width: 40%;
+	height: 40%;
+	border-radius: 50%;
+	background: black;
+	bottom: calc(0.1 * var(--length-unit));
+	left: 50%;
+	transform: translate(-50%);
+}
+
+.my-planet-mouth {
+	position: absolute;
+	bottom: 20%;
+	left: calc(50% - calc(1.5 * var(--length-unit)));
+	width: calc(3 * var(--length-unit));
+	height: calc(1.5 * var(--length-unit));
+	border-radius: 50% 50% 50% 50% / 0% 0% 100% 100%;
+	background: hsl(0deg, 0%, 15%);
+	overflow: hidden;
+}
+
+.my-planet-mouth:after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%);
+	height: 25%;
+	width: 100%;
+	background: red;
+}
+
+.my-planet-mouth:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 50%;
+	border-radius: inherit;
+	transform: translate(-50%);
+	height: 25%;
+	width: 50%;
+	background: white;
+}
+
+@-webkit-keyframes rotation {
+	0% {
+		transform: translate(-50%, -50%) rotateY(300deg);
+	}
+	50% {
+		transform: translate(-50%, -50%) rotateY(120deg);
+	}
+	100% {
+		transform: translate(-50%, -50%) rotateY(-60deg);
+	}
+}
+
+@keyframes rotation {
+	0% {
+		transform: translate(-50%, -50%) rotateY(300deg);
+	}
+	50% {
+		transform: translate(-50%, -50%) rotateY(120deg);
+	}
+	100% {
+		transform: translate(-50%, -50%) rotateY(-60deg);
+	}
+}
+
+/* => RINGS <= */
+
+.my-planet-rings {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: calc(7.5 * var(--length-unit));
+	width: calc(7.5 * var(--length-unit));
+	transform: translate(-50%, -50%) scaleX(3);
+	border-radius: 50%;
+	-webkit-animation: hula-hoop var(--speed) linear infinite;
+	animation: hula-hoop var(--speed) linear infinite;
+}
+
+.my-planet-rings-back {
+	border-top: calc(1 * var(--length-unit)) solid hsl(180deg, 100%, 50%, 0.25);
+}
+
+.my-planet-rings-front {
+	border-bottom: calc(1 * var(--length-unit)) solid hsl(180deg, 100%, 75%, 0.5);
+}
+
+@-webkit-keyframes hula-hoop {
+	0%,
+	100% {
+		transform: translate(-75%, -50%) scaleX(3);
+	}
+	50% {
+		transform: translate(-25%, -50%) scaleX(3);
+	}
+}
+
+@keyframes hula-hoop {
+	0%,
+	100% {
+		transform: translate(-75%, -50%) scaleX(3);
+	}
+	50% {
+		transform: translate(-25%, -50%) scaleX(3);
+	}
+}
+/* ===> UFO <=== */
+
+.ufo-container {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: calc(25 * var(--ufo-length-unit));
+	width: calc(40 * var(--ufo-length-unit));
+	transform: scale(0);
+	-webkit-animation: var(--ufo-travel) moving 0.5s linear forwards;
+	animation: var(--ufo-travel) moving 0.5s linear forwards;
+}
+
+@-webkit-keyframes moving {
+	0% {
+		transform: scale(0);
+	}
+	20%,
+	45% {
+		transform: scale(1)
+			translate(
+				calc(
+					50vw - calc(calc(10 * var(--length-unit))) -
+						calc(40 * var(--ufo-length-unit))
+				),
+				calc(-50vh - calc(7.5 * var(--length-unit)))
+			);
+	}
+	55%,
+	80% {
+		transform: translate(
+				calc(50vw + calc(10 * var(--length-unit))),
+				calc(-50vh - calc(7.5 * var(--length-unit)))
+			)
+			scale(1);
+	}
+	100% {
+		transform: translate(calc(100vw - calc(40 * var(--ufo-length-unit))), 0)
+			scale(0);
+	}
+}
+
+@keyframes moving {
+	0% {
+		transform: scale(0);
+	}
+	20%,
+	45% {
+		transform: scale(1)
+			translate(
+				calc(
+					50vw - calc(calc(10 * var(--length-unit))) -
+						calc(40 * var(--ufo-length-unit))
+				),
+				calc(-50vh - calc(7.5 * var(--length-unit)))
+			);
+	}
+	55%,
+	80% {
+		transform: translate(
+				calc(50vw + calc(10 * var(--length-unit))),
+				calc(-50vh - calc(7.5 * var(--length-unit)))
+			)
+			scale(1);
+	}
+	100% {
+		transform: translate(calc(100vw - calc(40 * var(--ufo-length-unit))), 0)
+			scale(0);
+	}
+}
+
+.ufo {
+	position: absolute;
+	left: 50%;
+	height: calc(25 * var(--ufo-length-unit));
+	width: calc(40 * var(--ufo-length-unit));
+	transform: translate(-50%);
+	background: none;
+}
+
+.ufo-glass {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 15%);
+	width: calc(30 * var(--ufo-length-unit));
+	height: calc(15 * var(--ufo-length-unit));
+	background: hsl(200deg, 80%, 90%, 0.75);
+	border-radius: 50% 50% 0 0;
+}
+
+.ufo-bottom {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, calc(12.5 * var(--ufo-length-unit)));
+	width: calc(30 * var(--ufo-length-unit));
+	height: calc(10 * var(--ufo-length-unit));
+	background: hsl(0deg, 0%, 50%);
+	border-radius: 0 0 50% 50%;
+}
+
+.ufo-bottom:before,
+.ufo-bottom:after {
+	content: "";
+	position: absolute;
+	bottom: calc(-2.5 * var(--ufo-length-unit));
+	width: calc(1 * var(--ufo-length-unit));
+	height: calc(4 * var(--ufo-length-unit));
+	background: teal;
+	border-radius: 50% 50% 0 0;
+}
+
+.ufo-bottom:before {
+	left: calc(4.5 * var(--ufo-length-unit));
+	transform: rotate(30deg);
+}
+
+.ufo-bottom:after {
+	right: calc(4.5 * var(--ufo-length-unit));
+	transform: rotate(-30deg);
+}
+
+.ufo-ring {
+	position: absolute;
+	top: 50%;
+	height: calc(5 * var(--ufo-length-unit));
+	width: 100%;
+	background: silver;
+	border-radius: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.ufo-ring-light {
+	width: calc(2.5 * var(--ufo-length-unit));
+	height: calc(2.5 * var(--ufo-length-unit));
+	background: yellow;
+	border-radius: 50%;
+	-webkit-animation: 1s ufo-flash linear infinite alternate;
+	animation: 1s ufo-flash linear infinite alternate;
+}
+
+@-webkit-keyframes ufo-flash {
+	from {
+		box-shadow: 0px 0px 0.5px orange;
+	}
+	to {
+		box-shadow: 0px 0px 25px orange;
+	}
+}
+
+@keyframes ufo-flash {
+	from {
+		box-shadow: 0px 0px 0.5px orange;
+	}
+	to {
+		box-shadow: 0px 0px 25px orange;
+	}
+}
+
+/* => ALIEN <= */
+
+.alien {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -45%);
+	height: calc(7.5 * var(--ufo-length-unit));
+	width: calc(7.5 * var(--ufo-length-unit));
+	background: green;
+	border-radius: 50% 50% 0 0;
+}
+
+.alien:before {
+	content: "";
+	position: absolute;
+	height: calc(1.5 * var(--ufo-length-unit));
+	width: var(--ufo-length-unit);
+	border-radius: 50% 50% 0 0;
+	transform: rotate(-33deg);
+	background: green;
+}
+
+.alien:after {
+	content: "";
+	position: absolute;
+	right: 0;
+	height: calc(1.5 * var(--ufo-length-unit));
+	width: var(--ufo-length-unit);
+	border-radius: 50% 50% 0 0;
+	transform: rotate(33deg);
+	background: green;
+}
+
+.alien-eye {
+	position: absolute;
+	top: calc(2 * var(--ufo-length-unit));
+	height: calc(1.5 * var(--ufo-length-unit));
+	width: calc(2 * var(--ufo-length-unit));
+	left: calc(50% - var(--ufo-length-unit));
+	border-radius: 50%;
+	background: white;
+}
+
+.alien-eye:before {
+	/*pupil of the eye*/
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%);
+	height: calc(1 * var(--ufo-length-unit));
+	width: calc(1 * var(--ufo-length-unit));
+	border-radius: 50%;
+	background: black;
+}
+
+.alien-eye:after {
+	/*eyelid*/
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%);
+	height: 0;
+	width: calc(2 * var(--ufo-length-unit));
+	background: darkgreen;
+	-webkit-animation: eye-blinking 4s linear infinite;
+	animation: eye-blinking 4s linear infinite;
+}
+
+@-webkit-keyframes eye-blinking {
+	20%,
+	23%,
+	70%,
+	73% {
+		height: 0;
+	}
+	21%,
+	22%,
+	71%,
+	72% {
+		height: calc(1.5 * var(--ufo-length-unit));
+	}
+}
+
+@keyframes eye-blinking {
+	20%,
+	23%,
+	50%,
+	53% {
+		height: 0;
+	}
+	21%,
+	22%,
+	51%,
+	52% {
+		height: calc(1.5 * var(--ufo-length-unit));
+	}
+}
+
+.alien-mouth {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	bottom: calc(2 * var(--ufo-length-unit));
+	height: calc(1 * var(--ufo-length-unit));
+	width: calc(3 * var(--ufo-length-unit));
+	background: white;
+	border-radius: 50% 50% 50% 50% / 0% 0% 100% 100%;
+}
+
+/* => LIFTING-RAY <= */
+
+.lifting-ray-container {
+	position: absolute;
+	left: 50%;
+	bottom: calc(-70 * var(--ufo-length-unit));
+	height: calc(80 * var(--ufo-length-unit));
+	width: calc(60 * var(--ufo-length-unit));
+	transform: translate(-50%);
+	-webkit-animation: var(--ufo-travel) lifting 0.5s linear forwards;
+	animation: var(--ufo-travel) lifting 0.5s linear forwards;
+	background: repeating-radial-gradient(
+		circle at top,
+		hsl(120deg, 100%, 50%, 0.75),
+		transparent 10%
+	);
+}
+
+@-webkit-keyframes lifting {
+	0%,
+	20%,
+	30%,
+	40%,
+	45%,
+	55%,
+	65%,
+	75%,
+	80%,
+	100% {
+		-webkit-clip-path: polygon(
+			40% 0,
+			60% 0,
+			60% 0,
+			60% 0,
+			60% 0,
+			50% 0,
+			40% 0,
+			40% 0,
+			40% 0
+		);
+		clip-path: polygon(
+			40% 0,
+			60% 0,
+			60% 0,
+			60% 0,
+			60% 0,
+			50% 0,
+			40% 0,
+			40% 0,
+			40% 0
+		);
+	}
+	25%,
+	35%,
+	44%,
+	60%,
+	70%,
+	79% {
+		-webkit-clip-path: polygon(
+			40% 0,
+			61% 0,
+			100% 92%,
+			85% 97%,
+			69% 99%,
+			50% 100%,
+			31% 99%,
+			15% 97%,
+			0 92%
+		);
+		clip-path: polygon(
+			40% 0,
+			61% 0,
+			100% 92%,
+			85% 97%,
+			69% 99%,
+			50% 100%,
+			31% 99%,
+			15% 97%,
+			0 92%
+		);
+	}
+}
+
+@keyframes lifting {
+	0%,
+	20%,
+	30%,
+	40%,
+	45%,
+	55%,
+	65%,
+	75%,
+	80%,
+	100% {
+		-webkit-clip-path: polygon(
+			40% 0,
+			60% 0,
+			60% 0,
+			60% 0,
+			60% 0,
+			50% 0,
+			40% 0,
+			40% 0,
+			40% 0
+		);
+		clip-path: polygon(
+			40% 0,
+			60% 0,
+			60% 0,
+			60% 0,
+			60% 0,
+			50% 0,
+			40% 0,
+			40% 0,
+			40% 0
+		);
+	}
+	25%,
+	35%,
+	44%,
+	60%,
+	70%,
+	79% {
+		-webkit-clip-path: polygon(
+			40% 0,
+			61% 0,
+			100% 92%,
+			85% 97%,
+			69% 99%,
+			50% 100%,
+			31% 99%,
+			15% 97%,
+			0 92%
+		);
+		clip-path: polygon(
+			40% 0,
+			61% 0,
+			100% 92%,
+			85% 97%,
+			69% 99%,
+			50% 100%,
+			31% 99%,
+			15% 97%,
+			0 92%
+		);
+	}
+}
+
+/* ===> SIGNATURE <=== */
+
+.link {
+	position: fixed;
+	z-index: 10;
+	left: calc(2.5vmin - 0.75rem);
+	bottom: calc(2.5vmin - 0.75rem);
+	font-size: 1.5rem;
+	font-family: arial, sans-serif;
+	color: whitesmoke;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.my-name {
+	position: relative;
+}
+
+.before,
+.after {
+	overflow: hidden;
+	width: 0px;
+	transition: width 0.5s;
+	transform-origin: right;
+}
+
+.before-text {
+	display: inline-block;
+	width: auto;
+	text-align: right;
+}
+
+.after-text {
+	display: flex;
+	align-items: center;
+	width: auto;
+	height: 3rem;
+	transform-origin: top center;
+}
+
+.link:hover .before {
+	width: 2.5rem;
+}
+
+.link:hover .after {
+	width: 4rem;
+}
+
+.link:hover .spin {
+	display: inline-block;
+	transition: 0.5s transform 0.5s ease-in-out;
+	transform: rotate(360deg);
+}
+
+/* Background from https://codepen.io/WebSonick/pen/vjmgu?editors=0100 */
+
+.stars,
+.twinkling {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+}
+
+.stars {
+	background: black
+		url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top
+		center;
+	z-index: 0;
+}
+
+.twinkling {
+	background: transparent
+		url(http://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top
+		center;
+	z-index: 1;
+	-webkit-animation: move-twink-back 500s linear infinite;
+	animation: move-twink-back 500s linear infinite;
+}
+
+@-webkit-keyframes move-twink-back {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: -10000px 5000px;
+	}
+}
+
+@keyframes move-twink-back {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: -10000px 5000px;
+	}
+}
+
+
+.btn2 {
+    border: 2px solid #b4b85c;
+     background-color: hsl(180deg, 100%, 75%, 0.75);
+    height: 40px;
+    border-radius: 20px;
+    display: flex;
+    padding: 10px;
+    margin: 20px;
+    font-family: 'Comfortaa', cursive;
+
+    font-size: 25px;
+
+    align-items: center;
+}
+
