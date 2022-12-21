@@ -76,7 +76,7 @@ const DisplayAll = ({search, setSearch}) => {
         setLoaded(false)
         getData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[data, page, search])
+    },[data, page, search, user])
 
 
     const addToCart = (item)=> {

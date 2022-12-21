@@ -3,12 +3,18 @@ import { useSelector, useDispatch } from 'react-redux'
 import {userActions} from '../store/index'
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
+import Register from './Register'
+import Login from './Login'
+import Update from './Update'
 
 export default function CartNavBar() {
     const [navbar, setNavbar] = useState(false);
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
+    const [showModal, setShowModal] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+    const [showUpdate, setShowUpdate] = useState(false);
 
     const handleLogout = (e) => {
     console.log("Attempting to logout")
@@ -22,6 +28,11 @@ export default function CartNavBar() {
         .catch((err)=>{
             console.log("Unsuccessful logout: ", err)
         })
+    }
+
+    const handleUpdateModal = (e) => {
+        setShowUpdate(true)
+        setShowModal(true)
     }
 
     const handleHome = () => {
@@ -85,15 +96,18 @@ export default function CartNavBar() {
                                     Logout
                                 </button>
                             </li>
-                            <li className="text-white hover:text-blue-600 cursor-pointer">
-                                <button className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                        onClick={()=> navigate("/user/" + user._id)}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </button>
-                            </li>
+                            {
+                                user &&                                     
+                                <li className="text-white hover:text-blue-600 cursor-pointer">
+                                    <button className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        onClick={()=> handleUpdateModal() }
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </button>
+                                </li>
+                            }
                             <li>
                                 <button onClick={handleHome} className="home">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-16">
@@ -102,6 +116,52 @@ export default function CartNavBar() {
                                 </button>
                             </li>
                         </ul>
+                        {
+                            showModal ? (
+                                <>
+                                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                                    <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                    <div className="flex justify-between p-5 border-b border-solid border-slate-200 rounded-t gap-20">
+                                        <h3 className="text-3xl font-semibold text-cyan-900">
+                                            {showLogin? "Sign In" : showUpdate? "Update" : "Register"}
+                                        </h3>
+                                        <div className="close">
+                                            <button
+                                                className="text-red-600 ml-10 background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-150 close"
+                                                onClick={() => setShowModal(false)}
+                                            >
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            </button>
+                                        </div>
+                                        <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                        onClick={() => setShowModal(false)}
+                                        >
+                                            <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                                ×
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div className="relative p-6 flex-auto">
+                                        {
+                                            showLogin ? 
+                                            
+                                            <Login setShowModal={setShowModal} setShowLogin={setShowLogin}/>
+                                            : showUpdate ?
+                                            <Update setShowModal={setShowModal}/>
+                                            :
+                                            <Register setShowModal={setShowModal} setShowLogin={setShowLogin}/>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                        </>
+                        ) : null
+                        }
                     </div>
                 </div>
             </div>

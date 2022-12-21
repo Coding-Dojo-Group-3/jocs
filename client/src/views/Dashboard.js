@@ -58,7 +58,7 @@ const Dashboard = () => {
             dispatch(userActions.null_user()) 
         })
       // eslint-disable-next-line react-hooks/exhaustive-deps
-        },[])
+        },[user])
 
     return (
         <>

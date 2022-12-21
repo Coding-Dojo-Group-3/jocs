@@ -12,6 +12,14 @@
     text-align: center;
   }
 
+  .theme {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .links {
+    margin: 0 0 -1.4em 0;
+  }
+
   .nav {
     background-color: rgb(34 94 146)
   }

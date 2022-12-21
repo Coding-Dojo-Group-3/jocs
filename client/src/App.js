@@ -20,8 +20,9 @@ function App() {
           {/* Update */}
           
           {/* Not Found */}
+          <Route path="" element={<NotFound/>}/>
           <Route element = {<NotFound />} path="/notfound" />
-          {/* <Route element = {<Navigate to="/notfound" />} path="*" /> */}
+          <Route element = {<Navigate to="/notfound" />} path="*" />
 
         </Routes>
       </BrowserRouter>
