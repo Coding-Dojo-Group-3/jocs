@@ -12,6 +12,14 @@
     text-align: center;
   }
 
+  .theme {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .links {
+    margin: 0 0 -1.4em 0;
+  }
+
   .nav {
     background-color: rgb(34 94 146)
   }
@@ -70,8 +78,42 @@
   padding: 3px 10px;
 }
 
+.wrapper {
+  width: 20rem;
+  height: 20rem;
+  overflow: hidden;
+}
 
+.wrapper img {
+  transition: transform 400ms;
+}
 
+.wrapper:hover img {
+  transform: scale(1.2)
+}
 
+.summary {
+  background-color: #f8f8f8
+}
 
+.shoe {
+  margin: 1.5em 2em 0 0em;
+}
+
+.shoeBadge {
+  padding: 0 3.2px;
+  background-color: #f108e5;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 50%;
+  position: relative;
+  top: -35px;
+  right: -12px;
+  width: 1rem;
+}
+
+.shoeHome {
+  margin: .2em 0 0 -1em; 
+}
 }

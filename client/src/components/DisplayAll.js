@@ -2,28 +2,37 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import noImage from '../assets/noImage.png'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
+import {useNavigate} from 'react-router-dom'
+import {userActions} from '../store/index'
+
 
 const DisplayAll = ({search, setSearch}) => {
+    
+    const API_HOST = process.env.REACT_APP_SECRET_HOST
+    const API_KEY = process.env.REACT_APP_API_KEY
 
     const [results,setResults]= useState([])
     const [data,setData]= useState("estimatedMarketValue:desc")
     const [page, setPage]= useState("0")
     const user = useSelector(state => state.user)
     const [loaded, setLoaded] = useState(false)
+    const navigate = useNavigate()
 
+    const dispatch = useDispatch()
+    
     const options = {
         method: 'GET',
-        url: `https://the-sneaker-database.p.rapidapi.com/sneakers/`,
+        url: `https://the-sneaker-database.p.rapidapi.com/sneakers`,
         params: {
             limit: '12',
             page: page,
             sort: data
         },
         headers: {
-            'X-RapidAPI-Key': "bab2d550f1msh1c440e012c6df05p1b3d5ejsn1d8cfea8cd4e",
-            'X-RapidAPI-Host': "the-sneaker-database.p.rapidapi.com",
+            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Host': API_HOST,
         }
     };
 
@@ -31,8 +40,8 @@ const DisplayAll = ({search, setSearch}) => {
         method: 'GET',
         url: `https://the-sneaker-database.p.rapidapi.com/search?limit=12&query=${search}&page=${page}`,
         headers: {
-            'X-RapidAPI-Key': "bab2d550f1msh1c440e012c6df05p1b3d5ejsn1d8cfea8cd4e",
-            'X-RapidAPI-Host': "the-sneaker-database.p.rapidapi.com",
+            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Host': API_HOST,
         }
     }
 
@@ -40,7 +49,7 @@ const DisplayAll = ({search, setSearch}) => {
         if(search === "") {
             await axios.request(options)
                 .then(function (response) {
-                    console.log("Shoe list: ", response.data.results);
+                    // console.log("Shoe list: ", response.data.results);
                     setLoaded(true)
                     setResults(response.data.results)
                 })      
@@ -49,11 +58,11 @@ const DisplayAll = ({search, setSearch}) => {
                     console.log(error);
                 });
         } else {
-            console.log("Search:", search, typeof search)
+            // console.log("Search:", search, typeof search)
             await axios.request(searchOptions)
             .then(function (response) {
                 setLoaded(true)
-                console.log("Shoe list: ", response.data.results);
+                // console.log("Shoe list: ", response.data.results);
                 setResults(response.data.results)
             })      
             .catch(function (error) {
@@ -67,12 +76,27 @@ const DisplayAll = ({search, setSearch}) => {
         setLoaded(false)
         getData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[data, page, search])
+    },[data, page, search, user])
 
 
     const addToCart = (item)=> {
-
-    }
+        // console.log("Attempting to add to cart", item)
+        let newUserCart = [...user.cart, item]
+        let newUser = {...user}
+        newUser.cart = newUserCart
+        // console.log("New user cart: ", newUser.cart)
+        let id = user._id
+        delete newUser._id
+        axios.patch(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
+            .then((res) => {
+                // console.log(res.data);
+                dispatch(userActions.set_user()) 
+                navigate(`/user/cart/${user._id}`);
+            })
+            .catch((err) => {
+                console.log("Error in add to cart: ", err);
+            });
+    };
 
     const handlePrevious = () => {
         document.getElementById('home').scrollIntoView({
@@ -104,7 +128,12 @@ const DisplayAll = ({search, setSearch}) => {
     const handleSort = (e) => {
         document.getElementById('home').scrollIntoView({
             behavior: 'smooth'})
+        setPage(0)
         setData(e.target.value)
+    }
+
+    const numberWithCommas= (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     return (
@@ -170,12 +199,12 @@ const DisplayAll = ({search, setSearch}) => {
                                             </div>
                                             <div>
                                                 <label className='text-cyan-700 font-bold'>Retail Price:
-                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.retailPrice}</span>
+                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${numberWithCommas(item.retailPrice)}</span>
                                                 </label>
                                             </div>
                                             <div>
                                                 <label className='text-cyan-700 font-bold'>Market Value:
-                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.estimatedMarketValue === 0 ? 100 : item.estimatedMarketValue }</span>
+                                                    <span className=" font-normal text-gray-700 dark:text-gray-400"> ${item.estimatedMarketValue === 0 ? 100 : numberWithCommas(item.estimatedMarketValue) }</span>
                                                 </label>
                                             </div>
                                             <div>
@@ -192,7 +221,7 @@ const DisplayAll = ({search, setSearch}) => {
                                                     user  ?
                                                     <>
                                                         <button 
-                                                        onClick={addToCart(item)}
+                                                        onClick={(e)=>addToCart(item)}
                                                         className="mb-10 ml-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-sky-800 rounded-lg hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-blue-800">
                                                             Add+
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Register from './Register'
 import Login from './Login'
+import Update from './Update'
 import { useSelector, useDispatch } from 'react-redux'
 import {userActions} from '../store/index'
 import {useNavigate} from 'react-router-dom'
@@ -11,16 +12,22 @@ export default function NavBar({search, setSearch, setIsLoggedIn}) {
     const [navbar, setNavbar] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
+    const [showUpdate, setShowUpdate] = useState(false);
     const navigate = useNavigate()
 
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
 
+    const handleUpdateModal = (e) => {
+        setShowUpdate(true)
+        setShowModal(true)
+    }
+
     const handleLogout = (e) => {
-        console.log("Attempting to logout")
+        // console.log("Attempting to logout")
         axios.get('http://localhost:8000/api/users/logout', {withCredentials:true})
             .then(()=>{
-                console.log("Successfully logged out")
+                // console.log("Successfully logged out")
                 setIsLoggedIn(false)
                 dispatch(userActions.null_user()) 
                 window.scrollTo(0,0);
@@ -110,7 +117,7 @@ export default function NavBar({search, setSearch, setIsLoggedIn}) {
                                 user &&                                     
                                 <li className="text-white hover:text-blue-600 cursor-pointer">
                                     <button className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                        onClick={()=> navigate("/user/" + user._id)}
+                                        onClick={()=> handleUpdateModal() }
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -140,7 +147,7 @@ export default function NavBar({search, setSearch, setIsLoggedIn}) {
                                     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     <div className="flex justify-between p-5 border-b border-solid border-slate-200 rounded-t gap-20">
                                         <h3 className="text-3xl font-semibold text-cyan-900">
-                                            Sign In // Register
+                                            {showLogin? "Sign In" : showUpdate? "Update" : "Register"}
                                         </h3>
                                         <div className="close">
                                             <button
@@ -165,8 +172,10 @@ export default function NavBar({search, setSearch, setIsLoggedIn}) {
                                             showLogin ? 
                                             
                                             <Login setShowModal={setShowModal} setShowLogin={setShowLogin}/>
+                                            : showUpdate ?
+                                            <Update setIsLoggedIn={setIsLoggedIn} setShowModal={setShowModal}/>
                                             :
-                                            <Register setShowModal={setShowModal} setShowLogin={setShowLogin}/>
+                                            <Register  setShowModal={setShowModal} setShowLogin={setShowLogin}/>
                                         }
                                     </div>
                                 </div>
