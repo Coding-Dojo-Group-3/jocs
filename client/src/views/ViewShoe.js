@@ -34,7 +34,7 @@ const ViewShoe = () => {
         if(isLoggedIn) {
             axios.get(`http://localhost:8000/api/users/${state.user.id}`, {withCredentials:true} )
             .then(res => {
-                console.log("Logged In User: ", res.data)
+                // console.log("Logged In User: ", res.data)
                 dispatch(userActions.set_user(res.data)) 
             })
             .catch((err)=> {
@@ -47,7 +47,7 @@ const ViewShoe = () => {
     useEffect(()=>{
         axios.post('http://localhost:8000/api/users/isLoggedIn', {}, {withCredentials:true})
         .then((res)=>{
-            console.log("Logged In State: ", res.data)
+            // console.log("Logged In State: ", res.data)
             setIsLoggedIn(true)
             setState(res.data)
         })
@@ -61,7 +61,7 @@ const ViewShoe = () => {
         await axios
         .request(options)
             .then(function (response) {
-            console.log("SINGLE SHOE RESULTS", response.data.results);
+            // console.log("SINGLE SHOE RESULTS", response.data.results);
             setShoe(response.data.results[0]);
             setLoaded(true)
             })
@@ -77,16 +77,16 @@ const ViewShoe = () => {
     }, []);
 
     const addToCart = (item)=> {
-        console.log("Attempting to add to cart", item)
+        // console.log("Attempting to add to cart", item)
         let newUserCart = [...user.cart, item]
         let newUser = {...user}
         newUser.cart = newUserCart
-        console.log("New user cart: ", newUser.cart)
+        // console.log("New user cart: ", newUser.cart)
         let id = user._id
         delete newUser._id
         axios.patch(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 dispatch(userActions.set_user()) 
                 navigate(`/user/cart/${user._id}`);
             })
@@ -130,7 +130,7 @@ const ViewShoe = () => {
                                 <label className="mt-5 text-2xl">Release Date:
                                     <span className="text-2xl"> {moment(shoe.releaseDate).format("ll") }</span>
                                 </label>
-                                {console.log(user)}
+                                {/* {console.log(user)} */}
                                 {
                                     user ? 
                                     <button 

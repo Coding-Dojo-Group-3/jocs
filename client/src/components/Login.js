@@ -12,11 +12,11 @@ const Login = ({setShowLogin}) => {
     const navigate = useNavigate()
 
     const submitHandler = (e)=>{
-        console.log("Attempting to login")
+        // console.log("Attempting to login")
         e.preventDefault()
         axios.post('http://localhost:8000/api/users/login' ,input, {withCredentials:true})
         .then((res)=>{
-            console.log("Login: ", res.data)
+            // console.log("Login: ", res.data)
             dispatch(userActions.set_user(res.data)) 
             setInput({})
             setErrors({})

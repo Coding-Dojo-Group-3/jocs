@@ -18,21 +18,21 @@ const Cart = () => {
     }
 
     const removeFromCart = (idx)=> {
-        console.log("Attempting to remove index from cart: ", idx)
+        // console.log("Attempting to remove index from cart: ", idx)
         let newUserCart = [...user.cart]
-        console.log("Trying to remove: ", newUserCart[idx])
+        // console.log("Trying to remove: ", newUserCart[idx])
         newUserCart.splice(idx, 1)
-        console.log("Cart without item: ", newUserCart)
+        // console.log("Cart without item: ", newUserCart)
         
         let newUser = {...user}
         newUser.cart = newUserCart
-        console.log("New user cart: ", newUser.cart)
+        // console.log("New user cart: ", newUser.cart)
         let id = user._id
         delete newUser._id
-        console.log("New user without item and id: ", newUser)
+        // console.log("New user without item and id: ", newUser)
         axios.patch(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 dispatch(userActions.set_user(res.data)) 
             })
             .catch((err) => {

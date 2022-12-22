@@ -18,7 +18,7 @@ const ViewCart = () => {
         if(isLoggedIn) {
             axios.get(`http://localhost:8000/api/users/${state.user.id}`, {withCredentials:true} )
             .then(res => {
-                console.log("Logged In User: ", res.data)
+                // console.log("Logged In User: ", res.data)
                 dispatch(userActions.set_user(res.data)) 
             })
             .catch((err)=> {
@@ -31,7 +31,7 @@ const ViewCart = () => {
     useEffect(()=>{
         axios.post('http://localhost:8000/api/users/isLoggedIn', {}, {withCredentials:true})
         .then((res)=>{
-            console.log("Logged In State: ", res.data)
+            // console.log("Logged In State: ", res.data)
             setIsLoggedIn(true)
             setState(res.data)
         })
@@ -45,7 +45,7 @@ const ViewCart = () => {
     const calcTotal = ()=> {
         let sum = 0
         user.cart.filter(item=>{
-            console.log("All totals in cart: ", item.estimatedMarketValue)
+            // console.log("All totals in cart: ", item.estimatedMarketValue)
             sum += item.estimatedMarketValue 
             return sum
         })
@@ -53,21 +53,21 @@ const ViewCart = () => {
     }
 
     const clearCart = (e)=>{
-        console.log("Attempting to move cart to history then clear cart: ")
+        // console.log("Attempting to move cart to history then clear cart: ")
         let newUserCart = [...user.cart]
-        console.log("Current cart: ", newUserCart)
+        // console.log("Current cart: ", newUserCart)
         let newUserHistory = [...user.history, {newUserCart}]
-        console.log("Cart added to history", newUserHistory)
+        // console.log("Cart added to history", newUserHistory)
         let newUser = {...user}
         newUser.cart = []
         newUser.history = newUserHistory
-        console.log("Empty Cart with History: ", newUser)
+        // console.log("Empty Cart with History: ", newUser)
         let id = user._id
         delete newUser._id
-        console.log("New user with empty cart, history, and no _id: ", newUser)
+        // console.log("New user with empty cart, history, and no _id: ", newUser)
         axios.patch(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 dispatch(userActions.set_user(res.data)) 
             })
             .catch((err) => {
@@ -79,7 +79,7 @@ const ViewCart = () => {
     <>
         <h1 id="home" className="text-9xl dashboard">JUST 4 KICKS</h1>
         <CartNavBar/>
-        {console.log("Cart size: ", user?.cart.length)}
+        {/* {console.log("Cart size: ", user?.cart.length)} */}
         {
             user?.cart.length > 0 ?
             <div className="columns-2 flex justify-around">
@@ -101,8 +101,6 @@ const ViewCart = () => {
                         <h2>${calcTotal()}</h2>
                     </div>
                     <div className="grid place-items-center mt-10">
-                        {/* <button className="bg-black text-white pr-6 pl-6 pt-2 pb-2 uppercase">Proceed to Checkout</button> */}
-                        {/* <PayPalButton total={calcTotal()} clearCart={clearCart}/> */}
                         <PayPalButton clearCart={clearCart}/>
                     </div>
                 </div>

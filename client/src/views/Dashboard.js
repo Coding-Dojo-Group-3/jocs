@@ -4,7 +4,6 @@ import {userActions} from '../store/index'
 import { gsap } from "gsap";
 import Shoe from "../assets/cartoon.png"
 import NavBar from "../components/NavBar"
-import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import DisplayAll from '../components/DisplayAll';
 
@@ -12,7 +11,6 @@ import DisplayAll from '../components/DisplayAll';
 const Dashboard = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
-    const navigate = useNavigate()
     const [search, setSearch]= useState("")
     const [isLoggedIn, setIsLoggedIn]= useState(false)
     const [state, setState] = useState()
@@ -36,7 +34,7 @@ const Dashboard = () => {
                 behavior: 'smooth'});
             axios.get(`http://localhost:8000/api/users/${state.user.id}`, {withCredentials:true} )
             .then(res => {
-                console.log("Redux User: ", res.data)
+                // console.log("Redux User: ", res.data)
                 dispatch(userActions.set_user(res.data)) 
             })
             .catch((err)=> {
@@ -49,12 +47,12 @@ const Dashboard = () => {
     useEffect(()=>{
         axios.post('http://localhost:8000/api/users/isLoggedIn', {}, {withCredentials:true})
         .then((res)=>{
-            console.log("Logged In State: ", res.data)
+            // console.log("Logged In State: ", res.data)
             setIsLoggedIn(true)
             setState(res.data)
         })
         .catch((err)=>{
-            console.log(err.response.data)
+            console.log(err)
             dispatch(userActions.null_user()) 
         })
       // eslint-disable-next-line react-hooks/exhaustive-deps

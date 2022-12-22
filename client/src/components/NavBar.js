@@ -24,10 +24,10 @@ export default function NavBar({search, setSearch, setIsLoggedIn}) {
     }
 
     const handleLogout = (e) => {
-        console.log("Attempting to logout")
+        // console.log("Attempting to logout")
         axios.get('http://localhost:8000/api/users/logout', {withCredentials:true})
             .then(()=>{
-                console.log("Successfully logged out")
+                // console.log("Successfully logged out")
                 setIsLoggedIn(false)
                 dispatch(userActions.null_user()) 
                 window.scrollTo(0,0);
@@ -173,9 +173,9 @@ export default function NavBar({search, setSearch, setIsLoggedIn}) {
                                             
                                             <Login setShowModal={setShowModal} setShowLogin={setShowLogin}/>
                                             : showUpdate ?
-                                            <Update setShowModal={setShowModal}/>
+                                            <Update setIsLoggedIn={setIsLoggedIn} setShowModal={setShowModal}/>
                                             :
-                                            <Register setShowModal={setShowModal} setShowLogin={setShowLogin}/>
+                                            <Register  setShowModal={setShowModal} setShowLogin={setShowLogin}/>
                                         }
                                     </div>
                                 </div>

@@ -1,14 +1,12 @@
 import React from 'react'
 import {useNavigate
-    // Navigate
-    // Link
 } from 'react-router-dom'
 
 
 const NotFound = () => {
     const navigate = useNavigate()
 
-  return (
+    return (
     <div className='body_'>
         <section>
             <button className='btn2' onClick={()=>navigate('/dashboard')}>Home</button>
@@ -58,31 +56,6 @@ const NotFound = () => {
             </div>
 
         </section>
-
-{/* <a href="https://maxime-malfilatre.com" className="signature" target="_blank">
-<div className="link">
-    <span className="brace">
-        
-    </span>
-    <span className="before">
-        <span className="before-text">
-            &nbsp;by
-        </span>
-    </span>
-    <span className="my-name">
-        m
-    </span>
-    <span className="after">
-        <span className="after-text">
-            <span className="spin">axe</span>
-            <span>w</span>
-        </span>
-    </span>
-    <span className="brace">
-        
-    </span>
-</div>
-</a> */}
 
     <div className="stars"></div>
     <div className="twinkling"></div>
