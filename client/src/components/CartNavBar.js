@@ -17,10 +17,10 @@ export default function CartNavBar() {
     const [showUpdate, setShowUpdate] = useState(false);
 
     const handleLogout = (e) => {
-    console.log("Attempting to logout")
+    // console.log("Attempting to logout")
     axios.get('http://localhost:8000/api/users/logout', {withCredentials:true})
         .then(()=>{
-            console.log("Successfully logged out")
+            // console.log("Successfully logged out")
             dispatch(userActions.null_user()) 
             window.scrollTo(0,0);
             navigate("/")

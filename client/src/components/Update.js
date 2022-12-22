@@ -6,28 +6,28 @@ import {userActions} from '../store/index'
 
 
 
-const Update = ({setShowModal}) => {
+const Update = ({setShowModal, setIsLoggedIn}) => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const navigate = useNavigate()
     const [input,setInput] = useState({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        email: user?.email,
     })
     const [errors, setErrors] = useState({});
 
     const submitHandler=(e)=>{
-        console.log("Attempting to update")
+        // console.log("Attempting to update")
         e.preventDefault()
         axios.patch(`http://localhost:8000/api/users/${user._id}`, input, {withCredentials:true})
             .then((res)=>{
-                console.log("Success Update: ", res.data)
+                // console.log("Success Update: ", res.data)
                 dispatch(userActions.set_user(res.data)) 
                 setShowModal(false)
                 setInput({})
                 setErrors({})
-                console.log("Saved User Cart:", user.user.cart)
+                // console.log("Saved User Cart:", user.user.cart)
                 navigate('/')
             })
             .catch((err)=>{
@@ -37,11 +37,11 @@ const Update = ({setShowModal}) => {
     }
 
     const submitPassHandler=(e)=>{
-        console.log("Attempting to update password")
+        // console.log("Attempting to update password")
         e.preventDefault()
         axios.patch(`http://localhost:8000/api/users/${user._id}/password`, input, {withCredentials:true})
             .then((res)=>{
-                console.log("Success Update: ", res.data)
+                // console.log("Success Update: ", res.data)
                 if(res.data.cart===undefined){
                     res.data.cart = []
                 }
@@ -49,7 +49,7 @@ const Update = ({setShowModal}) => {
                 setShowModal(false)
                 setInput({})
                 setErrors({})
-                console.log("Saved User Cart:", user.user.cart)
+                // console.log("Saved User Cart:", user.user.cart)
                 navigate('/')
             })
             .catch((err)=>{
@@ -58,21 +58,26 @@ const Update = ({setShowModal}) => {
             })
     }
 
+    const id = user?._id
+
     const deleteHandler=(e)=>{
         console.log("Attempting to delete")
-        e.preventDefault()
-        axios.delete(`http://localhost:8000/api/users/${user._id}`, {withCredentials:true})
+        axios.delete(`http://localhost:8000/api/users/${id}`)
             .then((res)=>{
-                console.log("Success Delete: ", res.data)
-                dispatch(userActions.set_user({}))
+                // console.log("Success Delete: ", res.data)
+                dispatch(userActions.null_user())
                 setShowModal(false)
+                setIsLoggedIn(false)
                 setInput({})
                 setErrors({})
                 navigate('/')
             })
             .catch((err)=>{
-                console.log("Delete errors: ", err)
-                setErrors(err)
+                // console.log("Delete errors: ", err)
+                dispatch(userActions.null_user())
+                setShowModal(false)
+                setIsLoggedIn(false)
+                navigate('/')
             })
     }
 

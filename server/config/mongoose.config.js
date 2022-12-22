@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const DB = "GroupProject"
+// const DB = "GroupProject"
 
 
-mongoose.connect(`mongodb://127.0.0.1/${DB}`, {
+mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-    .then(() => console.log(`Established a connection to the database: ${DB}`))
+    .then(() => console.log(`Established a connection to the database`))
     .catch(err => console.log('Something went wrong when connecting to the database: ', err));

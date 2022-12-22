@@ -35,7 +35,7 @@ module.exports = {
             });
     },
     delete: (req, res) => {
-        User.deleteOne({ _id: req.params.id })
+        User.findByIdAndDelete({ _id: req.params.id })
             .then(res => {
                 res.clearCookie('usertoken');
                 res.status(200).json({user:"Deleted"})
@@ -64,25 +64,23 @@ module.exports = {
     login: (req, res) => {
         User.findOne({email:req.body.email})
             .then((user)=>{
-                const {_id, firstName, cart, ...other} = user
+                const {_id, firstName, ...other} = user
                 if(user === null) {
                     res.status(400).json({message:"*Invalid Login Attempt"});
                 } else {
                     bcrypt.compare(req.body.password, user.password)
                         .then((isPasswordValid)=>{
                             if(isPasswordValid) {
-                                console.log("Password is valid")
+                                // console.log("Password is valid")
                                 const userToken = jwt.sign({
                                     id: user._id,
-                                    firstName: user.firstName,
-                                    // cart: user.cart
+                                    firstName: user.firstName
                                 }, process.env.SECRET_KEY)
                                 res
                                     .cookie('usertoken',userToken,{httpOnly:true})
                                     .json({user:
                                         {id: _id,
                                         firstName: firstName,
-                                        cart: cart
                                     }})
                             } else {
                                 res.status(400).json({message:"*Invalid Login Attempt"});

@@ -1,6 +1,4 @@
 import {PayPalScriptProvider,PayPalButtons,usePayPalScriptReducer} from "@paypal/react-paypal-js";
-// import { PayPalScriptOptions } from "@paypal/paypal-js";
-// import { PayPalButtonsComponentProps } from "@paypal/paypal-js";
 
 const paypalScriptOptions = {
     "client-id": "AaG5pHQShvCOwLeRGuMkA9o1iZ6YIvojHx36GnS-jJZPslJYq8KD2Vwu-uhdb0AfdJuJbYAa-1PyvGnn",

@@ -49,7 +49,7 @@ const DisplayAll = ({search, setSearch}) => {
         if(search === "") {
             await axios.request(options)
                 .then(function (response) {
-                    console.log("Shoe list: ", response.data.results);
+                    // console.log("Shoe list: ", response.data.results);
                     setLoaded(true)
                     setResults(response.data.results)
                 })      
@@ -58,11 +58,11 @@ const DisplayAll = ({search, setSearch}) => {
                     console.log(error);
                 });
         } else {
-            console.log("Search:", search, typeof search)
+            // console.log("Search:", search, typeof search)
             await axios.request(searchOptions)
             .then(function (response) {
                 setLoaded(true)
-                console.log("Shoe list: ", response.data.results);
+                // console.log("Shoe list: ", response.data.results);
                 setResults(response.data.results)
             })      
             .catch(function (error) {
@@ -80,16 +80,16 @@ const DisplayAll = ({search, setSearch}) => {
 
 
     const addToCart = (item)=> {
-        console.log("Attempting to add to cart", item)
+        // console.log("Attempting to add to cart", item)
         let newUserCart = [...user.cart, item]
         let newUser = {...user}
         newUser.cart = newUserCart
-        console.log("New user cart: ", newUser.cart)
+        // console.log("New user cart: ", newUser.cart)
         let id = user._id
         delete newUser._id
         axios.patch(`http://localhost:8000/api/users/${id}`, newUser , {withCredentials:true})
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 dispatch(userActions.set_user()) 
                 navigate(`/user/cart/${user._id}`);
             })
@@ -128,6 +128,7 @@ const DisplayAll = ({search, setSearch}) => {
     const handleSort = (e) => {
         document.getElementById('home').scrollIntoView({
             behavior: 'smooth'})
+        setPage(0)
         setData(e.target.value)
     }
 
