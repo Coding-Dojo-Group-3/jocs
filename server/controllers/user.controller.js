@@ -36,7 +36,7 @@ module.exports = {
     },
     delete: (req, res) => {
         User.findByIdAndDelete({ _id: req.params.id })
-            .then(res => {
+            .then(() => {
                 res.clearCookie('usertoken');
                 res.status(200).json({user:"Deleted"})
             })
